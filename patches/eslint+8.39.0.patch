@@ -1,0 +1,12 @@
+diff --git a/node_modules/eslint/lib/eslint/eslint.js b/node_modules/eslint/lib/eslint/eslint.js
+index e1d2116..a200373 100644
+--- a/node_modules/eslint/lib/eslint/eslint.js
++++ b/node_modules/eslint/lib/eslint/eslint.js
+@@ -169,6 +169,7 @@ function processOptions({
+     resolvePluginsRelativeTo = null, // ← should be null by default because if it's a string then it suppresses RFC47 feature.
+     rulePaths = [],
+     useEslintrc = true,
++    env: _env,
+     ...unknownOptions
+ }) {
+     const errors = [];
