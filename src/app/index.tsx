@@ -1,6 +1,8 @@
-import { memo, useState, useEffect, useRef, useCallback, type FormEvent } from "react";
+import { memo, useState, useEffect, useRef, useCallback, type FormEvent, type ChangeEvent } from "react";
 
-import "./visually.css";
+import { ThemeProvider } from "@theme/provider";
+
+import * as styles from "./styles.css";
 
 const App = () => {
   type Task = {
@@ -35,13 +37,14 @@ const App = () => {
   const [inputDescription, setInputDescription] = useState<string>('')
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem)
   const [anotherTasks, setAnotherTasks] = useState<Task[]>([])
+  const [active, setActive] = useState<boolean>(false)
 
-  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
+  const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
   }
 
-  const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputDescription(e.target.value)
+  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputDescription(event.target.value)
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -59,6 +62,8 @@ const App = () => {
     setInputDescription('')
   }
 
+
+  // ここを変える
   const handleValueEdit = useCallback((id: number, inputValue: string) => {
     const newTasks = tasks.map((task) => {
       if(task.id === id){
@@ -69,6 +74,7 @@ const App = () => {
     })
     setTasks(newTasks)
   }, [tasks])
+
 
   // 説明の編集をここでつくる
   const handleDescriptionEdit = (id: number, inputDescription: string) => {
@@ -88,11 +94,12 @@ const App = () => {
         task.done = !done
       }
 
-return task
+    return task
     })
     setTasks(newTasks)
+    setActive(!active)
   }
-
+  console.log(active)
   const handleDelete = (id:number) => {
     const newTasks = tasks.filter((task)=>task.id !== id)
     setTasks(newTasks)
@@ -103,24 +110,34 @@ return task
 
   const TaskItem = ({Value, description, id, done}:Task) => {
     return (
-      <>
+      <div className={styles.taskItem}>
         <input
           type="radio"
-          onChange={((e)=>{handleChecked(id, done); handleDelete(id)})}
+          onChange={((event)=>{handleChecked(id, done); handleDelete(id)})}
+          className={styles.taskCheckButton}
+          checked={done}
+        />
+        <div>
+          <div>
+            <input
+            type="text"
+            onChange={(event)=>handleValueEdit(id, event.target.value)}
+            value={Value}
+            disabled={done}
+            className={`${styles.titleInput} ${active ? styles.stringIsGray:''}`}
           />
-        <input
-          type="text"
-          onChange={(e)=>handleValueEdit(id, e.target.value)}
-          value={Value}
-          disabled={done}
-        />
-        <input
-          type="text"
-          onChange={(e)=>handleDescriptionEdit(id, e.target.value)}
-          value={description}
-          disabled={done}
-        />
-      </>
+          </div>
+          <div>
+            <input
+            type="text"
+            onChange={(event)=>handleDescriptionEdit(id, event.target.value)}
+            value={description}
+            disabled={done}
+            className={styles.descriptionInput}
+            />
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -131,9 +148,9 @@ return task
       </li>)
 
     return(
-      <ul>
-        {listItems}
-      </ul>
+        <ul>
+          {listItems}
+        </ul>
     )
   }
 
@@ -160,35 +177,55 @@ return task
       setIsOpen(!isOpen)
     }
 
+
+
+
+
     return (
-      <>
-        <button onClick={handleOpen} type="button" aria-haspopup="true" aria-expanded={isOpen}>
+      <div className={styles.menu}>
+        <button
+          onClick={handleOpen}
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={isOpen}
+          // className={{styles.commonButton} {styles.menuButton}}
+          className={`${styles.commonButton} ${styles.menuButton}`}
+
+          >
           ︙
         </button>
         {isOpen ?
-          <ul ref={menuRef} >
-            <input type='checkbox' id='redisplay' onChange={handleDeleteCheck}/>
-            <label htmlFor='redisplay'>非表示タスクも表示</label>
-            {deleteListItems}
-          </ul> : null
+          <div className={styles.menuList}>
+            <ul ref={menuRef}>
+              <input type='checkbox' id='redisplay' onChange={handleDeleteCheck}/>
+              <label htmlFor='redisplay'>非表示タスクも表示</label>
+              {/* {deleteListItems} */}
+            </ul>
+          </div> : null
         }
-      </>
+      </div>
       )
     }
 
-    console.log(tasks)
-
   return (
-    <>
-      <TaskList/>
-      <form onSubmit={(e) => {handleSubmit(e)}}>
-        <input type="text" onChange={(e) => {handleValueChange(e)}} className='inputText visually-hidden'/>
-        <input type="text" onChange={(e) => {handleDescriptionChange(e)}} className='inputText visually-hidden'/>
-        <input type="submit" id='newcreate' value='+'/>
-        <label htmlFor='newcreate'>新規</label>
-      </form>
-      <Menu />
-    </>
+    <ThemeProvider>
+      <div className={styles.root}>
+        <header className={styles.header}>
+        </header>
+        <main className={styles.main}>
+          <div className={styles.taskList}><TaskList/></div>
+          <Menu />
+        </main>
+        <footer className='styles.footer'>
+          <form onSubmit={(event) => {handleSubmit(event)}}>
+            <input type="text" onChange={(event) => {handleValueChange(event)}} className={styles.visuallyHidden}/>
+            <input type="text" onChange={(event) => {handleDescriptionChange(event)}} className={styles.visuallyHidden}/>
+            <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
+            <label htmlFor='newcreate' className={styles.newCreateString}>新規</label>
+          </form>
+        </footer>
+      </div>
+    </ThemeProvider>
   )
 }
 
