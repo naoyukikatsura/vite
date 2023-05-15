@@ -1,8 +1,9 @@
-import { memo, useState, useEffect, useRef, useCallback, type FormEvent, type ChangeEvent } from "react";
+import { memo, useState, useEffect, useRef, useCallback, type ComponentProps } from "react";
 
 import { ThemeProvider } from "@theme/provider";
 
 import * as styles from "./styles.css";
+
 
 const App = () => {
   type Task = {
@@ -10,6 +11,7 @@ const App = () => {
     description: string
     id: number
     done: boolean
+    active: boolean
   }
 
   const defaultTaskItem:Task[] = [
@@ -17,19 +19,22 @@ const App = () => {
     Value: 'タイトル3',
     description: '説明3',
     id: 3,
-    done: false
+    done: false,
+    active: false,
   },
   {
     Value: 'タイトル2',
     description: '説明2',
     id: 2,
-    done: false
+    done: false,
+    active: false,
   },
   {
     Value: 'タイトル1',
     description: '説明1',
     id: 1,
-    done: false
+    done: false,
+    active: false,
   }
  ]
 
@@ -37,31 +42,38 @@ const App = () => {
   const [inputDescription, setInputDescription] = useState<string>('')
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem)
   const [anotherTasks, setAnotherTasks] = useState<Task[]>([])
-  const [active, setActive] = useState<boolean>(false)
+  // const [autoFocus, setAutoFocus] = useState<boolean>(false)
 
-  const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value)
-  }
+  // const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setInputValue(event.target.value)
+  // }
 
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputDescription(event.target.value)
-  }
+  // const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setInputDescription(event.target.value)
+  // }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+
+
+
+  // const inputRef = useRef([])
+
+
+  const handleSubmit:ComponentProps<'form'>['onSubmit'] = (event: { preventDefault: () => void; }) => {
+    event.preventDefault()
 
     const newTask:Task = {
       Value: inputValue,
       description: inputDescription,
       id: tasks.length+1,
-      done: false
+      done: false,
+      active: false,
     }
 
     setTasks([newTask, ...tasks])
     setInputValue('')
     setInputDescription('')
   }
-
 
   // ここを変える
   const handleValueEdit = useCallback((id: number, inputValue: string) => {
@@ -88,18 +100,18 @@ const App = () => {
     setTasks(newTasks)
   }
 
-  const handleChecked = (id:number, done:boolean) => {
+  const handleChecked = useCallback((id:number, done:boolean, active:boolean) => {
     const newTasks = tasks.map((task) => {
       if(task.id === id) {
         task.done = !done
+        task.active = !active
       }
 
     return task
     })
     setTasks(newTasks)
-    setActive(!active)
-  }
-  console.log(active)
+  }, [tasks])
+  // console.log(active)
   const handleDelete = (id:number) => {
     const newTasks = tasks.filter((task)=>task.id !== id)
     setTasks(newTasks)
@@ -108,12 +120,26 @@ const App = () => {
     setAnotherTasks([...anotherTasks, ...deletedTasks])
   }
 
-  const TaskItem = ({Value, description, id, done}:Task) => {
+
+  // const handleInputRef = (element: any) => {
+  //   if (element && !inputRef.current.includes(element)) {
+  //     inputRef.current.push(element)
+  //   }
+  // }
+
+
+
+
+  const TaskItem = ({Value, description, id, done, active}:Task) => {
+    // const inputRef = useRef(null)
+    // useEffect(() => {
+    //   inputRef.current.focus()
+    // },[])
     return (
       <div className={styles.taskItem}>
         <input
           type="radio"
-          onChange={((event)=>{handleChecked(id, done); handleDelete(id)})}
+          onChange={((event)=>{handleChecked(id, done, active); handleDelete(id)})}
           className={styles.taskCheckButton}
           checked={done}
         />
@@ -125,6 +151,7 @@ const App = () => {
             value={Value}
             disabled={done}
             className={`${styles.titleInput} ${active ? styles.stringIsGray:''}`}
+            // ref={handleInputRef}
           />
           </div>
           <div>
@@ -144,7 +171,7 @@ const App = () => {
   const TaskList = () => {
     const listItems = tasks.map((task)=>
       <li key={task.id}>
-        <TaskItem Value={task.Value} description={task.description} id={task.id} done={task.done}/>
+        <TaskItem Value={task.Value} description={task.description} id={task.id} done={task.done} active={task.active}/>
       </li>)
 
     return(
@@ -156,7 +183,7 @@ const App = () => {
 
   const deleteListItems = anotherTasks.map((anothertask) =>
   <li key={anothertask.id}>
-    <TaskItem Value={anothertask.Value} description={anothertask.description} id={anothertask.id} done={anothertask.done}/>
+    <TaskItem Value={anothertask.Value} description={anothertask.description} id={anothertask.id} done={anothertask.done} active={anothertask.active}/>
   </li>
   )
 
@@ -179,8 +206,6 @@ const App = () => {
 
 
 
-
-
     return (
       <div className={styles.menu}>
         <button
@@ -188,22 +213,32 @@ const App = () => {
           type="button"
           aria-haspopup="true"
           aria-expanded={isOpen}
-          // className={{styles.commonButton} {styles.menuButton}}
           className={`${styles.commonButton} ${styles.menuButton}`}
-
           >
           ︙
         </button>
         {isOpen ?
           <div className={styles.menuList}>
-            <ul ref={menuRef}>
+            <div ref={menuRef} className={styles.menuTitle}>
               <input type='checkbox' id='redisplay' onChange={handleDeleteCheck}/>
-              <label htmlFor='redisplay'>非表示タスクも表示</label>
+              <label htmlFor='redisplay' className={styles.menuString}>非表示タスクも表示</label>
               {/* {deleteListItems} */}
-            </ul>
-          </div> : null
+            </div>
+          </div>
+          : null
         }
       </div>
+      )
+    }
+
+
+
+    const NewCreate = () => {
+      return (
+        <form onSubmit={handleSubmit}>
+          <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
+          <label htmlFor='newcreate' className={styles.newCreateString}>新規</label>
+        </form>
       )
     }
 
@@ -217,12 +252,13 @@ const App = () => {
           <Menu />
         </main>
         <footer className='styles.footer'>
-          <form onSubmit={(event) => {handleSubmit(event)}}>
-            <input type="text" onChange={(event) => {handleValueChange(event)}} className={styles.visuallyHidden}/>
-            <input type="text" onChange={(event) => {handleDescriptionChange(event)}} className={styles.visuallyHidden}/>
-            <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
+          <NewCreate/>
+          {/* <form onSubmit={handleSubmit}> */}
+            {/* <input type="text" onChange={(event) => {handleValueChange(event)}} className={styles.visuallyHidden}/>
+            <input type="text" onChange={(event) => {handleDescriptionChange(event)}} className={styles.visuallyHidden}/> */}
+            {/* <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
             <label htmlFor='newcreate' className={styles.newCreateString}>新規</label>
-          </form>
+          </form> */}
         </footer>
       </div>
     </ThemeProvider>

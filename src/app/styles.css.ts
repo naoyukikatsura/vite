@@ -10,7 +10,8 @@ export const root = style({
     [footerSize]: "128px",
   },
   // border: '2px solid red',
-  margin: '0 300px',
+  margin: '0 auto',
+  width: '400px',
 });
 
 export const header = style({
@@ -43,8 +44,8 @@ export const taskItem = style({
 });
 
 export const commonButton = style({
-  width: '40px',
-  height: '40px',
+  width: '24px',
+  height: '24px',
   borderRadius: '50%',
   border: 'none',
   ':hover': {
@@ -62,7 +63,9 @@ export const createButton = style({
 })
 
 export const titleInput = style({
-  height: '30px',
+  lineHeight: '19px',
+  fontSize: '16px',
+  alignItems: 'center',
   border: 'none',
 });
 
@@ -78,16 +81,16 @@ export const stringIsGray = style({
 })
 
 export const taskCheckButton = style({
-  inlineSize: '1.3rem',
-  blockSize: '1.3rem',
+  width: '16px',
+  height: '16px',
   marginTop: '5px',
   marginRight: '10px',
 });
 
-
 export const newCreateString = style({
   color: '#287FB8',
-  fontSize: '40px',
+  fontSize: '20px',
+  marginLeft: '8px',
 })
 
 export const menu = style({
@@ -95,7 +98,9 @@ export const menu = style({
 })
 
 export const menuList = style({
-  boxShadow: '0px 0px 4px 2px rgba(0,0,0,0.4)',
+  boxShadow: '0px 0px 4px rgba(0,0,0,0.25)',
+  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  borderRadius: '8px',
   height: '100px',
   width: '175px',
   position: 'absolute',
@@ -103,8 +108,23 @@ export const menuList = style({
   left: '0',
 })
 
+export const menuTitle = style({
+  margin: '0 auto',
+  marginTop: '15px',
+  width: '130px',
+})
+
+export const menuString = style({
+  fontWeight: '400',
+  fontSize: '12px',
+  lineHeight: '15px',
+  alignItems: 'center',
+  marginLeft: '3px',
+})
+
 export const taskList = style({
   paddingTop: '40px',
+  paddingLeft: '16px',
 })
 
 export const visuallyHidden = style({
