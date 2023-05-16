@@ -1,30 +1,25 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
 import * as styles from '../app/styles.css';
 
 interface Props {
   isOpen: boolean
-  // menuRef: HTMLElement
-  handleOpen: () => void
-  handleDeleteCheck: () => void
+  onOpen: () => void
+  onDeleteCheck: () => void
 }
 
-const Menu = ({handleOpen, isOpen, handleDeleteCheck}: Props) => {
-  const menuRef = useRef(null)
+const Menu = ({onOpen, isOpen, onDeleteCheck}: Props) => {
+  const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if(menuRef.current)
     isOpen && menuRef.current.focus()
     }, [isOpen])
-
-  // useEffect(() => {
-  //   if(!menuRef.current) return
-  //   isOpen && menuRef.current.focus()
-  // }, [isOpen])
 
   return (
     <div className={styles.menu}>
       <button
-        onClick={handleOpen}
+        onClick={onOpen}
         type="button"
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -35,7 +30,7 @@ const Menu = ({handleOpen, isOpen, handleDeleteCheck}: Props) => {
       {isOpen ?
         <div className={styles.menuList}>
           <div ref={menuRef} className={styles.menuTitle}>
-            <input type='checkbox' id='redisplay' onChange={handleDeleteCheck}/>
+            <input type='checkbox' id='redisplay' onChange={onDeleteCheck}/>
             <label htmlFor='redisplay' className={styles.menuString}>非表示タスクも表示</label>
           </div>
         </div>

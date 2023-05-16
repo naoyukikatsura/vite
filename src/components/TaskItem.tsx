@@ -1,21 +1,30 @@
+import { forwardRef, useCallback } from 'react';
+
 import * as styles from '../app/styles.css';
 
-interface Props {
+export interface Task {
   Value: string
   description: string
   id: number
   done: boolean
   active: boolean
-  handleDelete: () => void
-  handleChecked: () => void
 }
 
-const TaskItem = ({Value, description, id, done, active, handleDelete, handleChecked}:Props) => {
+interface Props extends Task {
+  onDelete: (id: number) => void
+  onChecked: (id: number, done: boolean, active: boolean) => void
+  onValueEdit: (id: number, inputValue:string) => void
+  onDescriptionEdit: (id: number, inputDescription: string) => void
+  onInputRef: (element: HTMLInputElement) => void
+
+}
+
+const TaskItem = forwardRef(({Value, description, id, done, active, onDelete, onChecked, onValueEdit, onDescriptionEdit, onInputRef }:Props) => {
   return (
     <div className={styles.taskItem}>
       <input
         type="radio"
-        onChange={((event)=>{handleChecked(id, done, active); handleDelete(id)})}
+        onChange={useCallback((()=>{onChecked(id, done, active); onDelete(id)}), [active, done, id, onChecked, onDelete])}
         className={styles.taskCheckButton}
         checked={done}
       />
@@ -23,17 +32,17 @@ const TaskItem = ({Value, description, id, done, active, handleDelete, handleChe
         <div>
           <input
           type="text"
-          onChange={(event)=>handleValueEdit(id, event.target.value)}
+          onChange={useCallback((event:React.ChangeEvent<HTMLInputElement>)=>onValueEdit(id, event.target.value), [id, onValueEdit])}
           value={Value}
           disabled={done}
           className={`${styles.titleInput} ${active ? styles.stringIsGray:''}`}
-          // ref={handleInputRef}
+          ref={onInputRef}
         />
         </div>
         <div>
           <input
           type="text"
-          onChange={(event)=>handleDescriptionEdit(id, event.target.value)}
+          onChange={useCallback((event: { target: { value: string; }; })=>onDescriptionEdit(id, event.target.value), [id, onDescriptionEdit])}
           value={description}
           disabled={done}
           className={styles.descriptionInput}
@@ -42,6 +51,6 @@ const TaskItem = ({Value, description, id, done, active, handleDelete, handleChe
       </div>
     </div>
   )
-}
+})
 
 export default TaskItem
