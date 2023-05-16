@@ -1,27 +1,16 @@
-//  const handleSubmit:ComponentProps<'form'>['onSubmit'] = (event: { preventDefault: () => void; }) => {
-//     event.preventDefault()
+import * as styles from '../app/styles.css';
 
-//     const newTask:Task = {
-//       Value: inputValue,
-//       description: inputDescription,
-//       id: tasks.length+1,
-//       done: false,
-//       active: false,
-//     }
+interface Props {
+  handleSubmit: () => void
+}
 
-//     setTasks([newTask, ...tasks])
-//     setInputValue('')
-//     setInputDescription('')
-//   }
+const NewCreate = ({handleSubmit}: Props) => {
+      return (
+        <form onSubmit={handleSubmit}>
+          <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
+          <label htmlFor='newcreate' className={styles.newCreateString}>新規</label>
+        </form>
+      )
+    }
 
-// const NewCreate = ({handleSubmit}) => {
-//       return (
-//         <form onSubmit={handleSubmit}>
-//           <input type="submit" id='newcreate' value='+' className={`${styles.commonButton} ${styles.createButton}`}/>
-//           <label htmlFor='newcreate' className={styles.newCreateString}>新規</label>
-//         </form>
-//       )
-//     }
-
-
-// export default NewCreate
+export default NewCreate
