@@ -5,8 +5,39 @@ import NewCreate from "@components/NewCreate";
 import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
-import { defaultTaskItem, type Task } from "./default-task";
 import * as styles from "./styles.css";
+
+export type Task = {
+  Value: string;
+  description: string;
+  id: number;
+  done: boolean;
+  active: boolean;
+};
+
+export const defaultTaskItem: Task[] = [
+  {
+    Value: "タイトル3",
+    description: "説明3",
+    id: 3,
+    done: false,
+    active: false,
+  },
+  {
+    Value: "タイトル2",
+    description: "説明2",
+    id: 2,
+    done: false,
+    active: false,
+  },
+  {
+    Value: "タイトル1",
+    description: "説明1",
+    id: 1,
+    done: false,
+    active: false,
+  },
+];
 
 const App = () => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -51,10 +82,6 @@ const App = () => {
 
     const inputElement: HTMLInputElement | null = inputRefs.current[inputRefs.current.length - 1];
 
-    // if (inputElement === null){
-    //   return
-    // }
-
     if (inputRefs.current.includes(null) || inputElement === null) {
       return;
     }
@@ -91,24 +118,10 @@ const App = () => {
 
   const handleChecked = useCallback((id: number, done: boolean, active: boolean) => {
     setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
-
-    // const currentTasks: Task[] = tasks.filter((task)=>task.id !== id)
-    // const archivedTask: Task | undefined = tasks.find((task)=>task.id === id)
-    // if (archivedTask === undefined) {
-    //   return
-    // }
-    // archivedTask.done = !done
-    // archivedTask.active = !active
-
-    // setTasks(currentTasks)
-    // setAnotherTasks([...anotherTasks, archivedTask])
   }, []);
   const falseTasks: Task[] = tasks.filter((task) => !task.done);
 
   const handleDeleteCheck = useCallback(() => {
-    // setTasks([...tasks, ...anotherTasks])
-    // setAnotherTasks([])
-
     const trueTasks: Task[] = tasks.filter((task) => task.done);
     setTasks([...falseTasks, ...trueTasks]);
 

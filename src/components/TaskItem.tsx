@@ -1,14 +1,7 @@
 import { forwardRef, useCallback, type LegacyRef } from "react";
 
+import { type Task } from "../app/index";
 import * as styles from "../app/styles.css";
-
-interface Task {
-  Value: string;
-  description: string;
-  id: number;
-  done: boolean;
-  active: boolean;
-}
 
 export interface Props extends Task {
   onChecked: (id: number, done: boolean, active: boolean) => void;
