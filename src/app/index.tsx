@@ -9,12 +9,19 @@ import { defaultTaskItem, type Task } from "./default-task";
 import * as styles from "./styles.css";
 
 const App = () => {
-
   const [inputValue, setInputValue] = useState<string>('')
   const [inputDescription, setInputDescription] = useState<string>('')
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem)
   const [anotherTasks, setAnotherTasks] = useState<Task[]>([])
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  // const [isDone, setIsDone] = useState<boolean>(false)
+  const [count, setCount] = useState<number>(3)
+
+
+
+  const handleCreateTask = useCallback(() => {
+    setCount(count+1)
+  },[count])
 
 
   const handleSubmit:React.FormEventHandler<HTMLFormElement> = useCallback((event:React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +31,7 @@ const App = () => {
       const newTask:Task = {
         Value: '',
         description: '',
-        id: tasks.length+1,
+        id: count,
         done: false,
         active: false,
       }
@@ -33,28 +40,35 @@ const App = () => {
       setInputValue('')
       setInputDescription('')
     }
-  }, [tasks])
+  }, [count, tasks])
 
 
-  const inputRefs: MutableRefObject<HTMLInputElement[]> = useRef([])
+  const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([])
 
   const handleInputRef = useCallback((element: HTMLInputElement) => {
-  if (!inputRefs.current.includes(element)) {
-    inputRefs.current.push(element)
-  }
-  inputRefs.current[inputRefs.current.length-1].focus()
+    if (!inputRefs.current.includes(element)) {
+      // console.log(inputRefs.current.includes(element), inputRefs.current.length, inputRefs.current)
+      inputRefs.current.push(element)
+      // console.log(inputRefs.current.includes(element), inputRefs.current.length, inputRefs.current)
+
+    }
+
+    const inputElement: HTMLInputElement | null = inputRefs.current[inputRefs.current.length-1]
+
+    // if (inputElement === null){
+    //   return
+    // }
+
+    if (inputRefs.current.includes(null) || inputElement === null){
+      return
+    }
+    inputElement.focus()
+
+    // console.log(inputRefs.current.includes(null))
+    // console.log(inputRefs.current)
+    // console.log(inputElement)
+
   }, [])
-
-
-
-
-
-
-  // console.log(`inputRefs.currentの配列の長さ:${inputRefs.current.length}`)
-
-
-
-
 
 
   const handleValueEdit = useCallback((id: number, inputValue: string) => {
@@ -62,6 +76,7 @@ const App = () => {
       if(task.id === id){
         task.Value = inputValue
       }
+
 
       return task
     })
@@ -82,34 +97,49 @@ const App = () => {
   }, [tasks])
 
   const handleChecked = useCallback((id:number, done:boolean, active:boolean) => {
-    const newTasks = tasks.map((task) => {
-      if(task.id === id) {
-        task.done = !done
-        task.active = !active
-      }
 
-    return task
-    })
-    setTasks(newTasks)
-  }, [tasks])
+    // setTasks((prevTask) =>
+    //   prevTask.map((obj) => (obj.done === false ? {done:true} : obj))
+    // )
 
 
-  const handleDelete = useCallback((id:number) => {
-    const newTasks = tasks.filter((task)=>task.id !== id)
-    setTasks(newTasks)
 
-    const deletedTasks = tasks.filter((task)=>task.id === id)
-    setAnotherTasks([...anotherTasks, ...deletedTasks])
-  }, [anotherTasks, tasks])
 
+
+
+
+
+    const currentTasks: Task[] = tasks.filter((task)=>task.id !== id)
+    const archivedTask: Task | undefined = tasks.find((task)=>task.id === id)
+    if (archivedTask === undefined) {
+      return
+    }
+    archivedTask.done = !done
+    archivedTask.active = !active
+
+
+
+
+
+    setTasks(currentTasks)
+    setAnotherTasks([...anotherTasks, archivedTask])
+
+
+}, [anotherTasks, tasks])
 
 
 
 
 
   const handleDeleteCheck = useCallback(() => {
-    setTasks([...tasks, ...anotherTasks])
-    setAnotherTasks([])
+
+      setTasks([...tasks, ...anotherTasks])
+      setAnotherTasks([])
+
+
+
+
+
   }, [anotherTasks, tasks])
 
 
@@ -129,7 +159,6 @@ const App = () => {
         done={anothertask.done}
         active={anothertask.active}
         onChecked={handleChecked}
-        onDelete={handleDelete}
         onValueEdit={handleValueEdit}
         onDescriptionEdit={handleDescriptionEdit}
         onInputRef={handleInputRef}
@@ -147,13 +176,16 @@ const App = () => {
         done={task.done}
         active={task.active}
         onChecked={handleChecked}
-        onDelete={handleDelete}
         onValueEdit={handleValueEdit}
         onDescriptionEdit={handleDescriptionEdit}
         onInputRef={handleInputRef}
       />
     </li>
   )
+  // console.log(tasks[0].id, tasks[1].id, tasks[2].id)
+  // console.log(tasks[tasks.length-1].id)
+  // console.log(`${tasks.length}番目のid:${tasks[0].id}`)
+
 
 
 
@@ -164,17 +196,6 @@ const App = () => {
         </header>
         <main className={styles.main}>
           <div className={styles.taskList}>
-            {/* <TaskList
-            tasks={tasks}
-            onChecked={handleChecked}
-            onDelete={handleDelete}
-            onValueEdit={handleValueEdit}
-            onDescriptionEdit={handleDescriptionEdit}
-            onInputRef={handleInputRef}
-            /> */}
-
-
-
             <ul>
               {listItems}
             </ul>
@@ -183,7 +204,7 @@ const App = () => {
           <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck}/>
         </main>
         <footer className='styles.footer'>
-          <NewCreate onSubmit={handleSubmit}/>
+          <NewCreate onSubmit={handleSubmit} createTask={handleCreateTask}/>
         </footer>
       </div>
     </ThemeProvider>

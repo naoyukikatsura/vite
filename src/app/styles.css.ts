@@ -9,7 +9,6 @@ export const root = style({
     [headerSize]: "64px",
     [footerSize]: "128px",
   },
-  // border: '2px solid red',
   margin: '0 auto',
   width: '400px',
 });
