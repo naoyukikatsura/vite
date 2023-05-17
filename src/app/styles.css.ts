@@ -138,3 +138,6 @@ export const visuallyHidden = style({
   whiteSpace: "nowrap",
   borderWidth: "0",
 });
+function defineProperties(arg0: { defaultCondition: string }) {
+  throw new Error("Function not implemented.");
+}

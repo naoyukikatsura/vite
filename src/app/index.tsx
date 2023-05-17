@@ -1,4 +1,3 @@
-
 import { memo, useState, useCallback, useRef, type MutableRefObject } from "react";
 
 import Menu from "@components/Menu";
@@ -151,9 +150,6 @@ const App = () => {
       />
     </li>
   ));
-  // console.log(tasks[0].id, tasks[1].id, tasks[2].id)
-  // console.log(tasks[tasks.length-1].id)
-  // console.log(`${tasks.length}番目のid:${tasks[0].id}`)
 
   return (
     <ThemeProvider>
@@ -174,6 +170,6 @@ const App = () => {
 };
 
 export default memo(App);
-function createTheme (arg0: { palette: { mode: string; }; }) {
+function createTheme(arg0: { palette: { mode: string } }) {
   throw new Error("Function not implemented.");
 }

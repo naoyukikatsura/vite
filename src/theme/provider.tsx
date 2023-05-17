@@ -1,5 +1,6 @@
 import "@acab/reset.css";
 import type { FC, ReactNode } from "react";
+import "../styles/styles.css";
 
 type ThemeProviderProps = {
   children?: ReactNode;
