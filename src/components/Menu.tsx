@@ -1,20 +1,20 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from "react";
 
-import * as styles from '../app/styles.css';
+import * as styles from "../app/styles.css";
 
 interface Props {
-  isOpen: boolean
-  onOpen: () => void
-  onDeleteCheck: () => void
+  isOpen: boolean;
+  checked: boolean;
+  onOpen: () => void;
+  onDeleteCheck: () => void;
 }
 
-const Menu = ({onOpen, isOpen, onDeleteCheck}: Props) => {
-  const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
+const Menu = ({ onOpen, isOpen, onDeleteCheck, checked }: Props) => {
+  const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if(menuRef.current)
-    isOpen && menuRef.current.focus()
-    }, [isOpen])
+    if (menuRef.current) isOpen && menuRef.current.focus();
+  }, [isOpen]);
 
   return (
     <div className={styles.menu}>
@@ -24,20 +24,21 @@ const Menu = ({onOpen, isOpen, onDeleteCheck}: Props) => {
         aria-haspopup="true"
         aria-expanded={isOpen}
         className={`${styles.commonButton} ${styles.menuButton}`}
-        >
+      >
         ︙
       </button>
-      {isOpen ?
+      {isOpen ? (
         <div className={styles.menuList}>
           <div ref={menuRef} className={styles.menuTitle}>
-            <input type='checkbox' id='redisplay' onChange={onDeleteCheck}/>
-            <label htmlFor='redisplay' className={styles.menuString}>非表示タスクも表示</label>
+            <input type="checkbox" id="redisplay" onChange={onDeleteCheck} checked={checked} />
+            <label htmlFor="redisplay" className={styles.menuString}>
+              非表示タスクも表示
+            </label>
           </div>
         </div>
-        : null
-      }
+      ) : null}
     </div>
-    )
-}
+  );
+};
 
-export default Menu
+export default Menu;
