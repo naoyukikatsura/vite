@@ -43,7 +43,6 @@ const App = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputDescription, setInputDescription] = useState<string>("");
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
-  const [anotherTasks, setAnotherTasks] = useState<Task[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
   const [count, setCount] = useState<number>(3);
@@ -131,22 +130,6 @@ const App = () => {
   const handleOpen = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
-
-  const deleteListItems = anotherTasks.map((anothertask) => (
-    <li key={anothertask.id}>
-      <TaskItem
-        Value={anothertask.Value}
-        description={anothertask.description}
-        id={anothertask.id}
-        done={anothertask.done}
-        active={anothertask.active}
-        onChecked={handleChecked}
-        onValueEdit={handleValueEdit}
-        onDescriptionEdit={handleDescriptionEdit}
-        onInputRef={handleInputRef}
-      />
-    </li>
-  ));
 
   const listItems = (checked ? tasks : falseTasks).map((task) => (
     <li key={task.id}>
