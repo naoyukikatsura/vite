@@ -8,8 +8,6 @@ import { ThemeProvider } from "@theme/provider";
 import handleCreateTask from "./handle-create-task";
 import * as styles from "./styles.css";
 
-
-
 export type Task = {
   Value: string;
   description: string;
@@ -48,7 +46,7 @@ const App = () => {
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(3)
+  const [count, setCount] = useState<number>(3);
 
   // const handleCreateTask = useCallback(() => {
   //   setCount(count + 1);
