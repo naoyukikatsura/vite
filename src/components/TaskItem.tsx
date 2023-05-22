@@ -11,7 +11,10 @@ export interface Props extends Task {
 }
 
 const TaskItem = forwardRef(
-  ({ value: Value, description, id, done, active, onChecked, onValueEdit, onDescriptionEdit, onInputRef }: Props, ref) => {
+  (
+    { value: Value, description, id, done, active, onChecked, onValueEdit, onDescriptionEdit, onInputRef }: Props,
+    ref
+  ) => {
     return (
       <div className={styles.taskItem}>
         <input

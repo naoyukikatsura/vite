@@ -13,22 +13,20 @@ const useHandleClick = () => {
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
 
   const handleCreateTask = useCallback(() => {
-
     if (tasks[0].value !== "" && tasks[0].description !== "") {
-      const newId = id + 1
-      setId(newId)
+      const newId = id + 1;
+      setId(newId);
       const newTask: Task = {
         value: "",
         description: "",
         id: newId,
         done: false,
         active: false,
-    };
+      };
 
-    setTasks([newTask, ...tasks]);
-      }
-    }, [id, setTasks, tasks])
-
+      setTasks([newTask, ...tasks]);
+    }
+  }, [id, setTasks, tasks]);
 
   return { tasks, setTasks, handleCreateTask };
 };

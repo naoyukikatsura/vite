@@ -46,8 +46,8 @@ const App = () => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const { isOpen, handleOpen } = useHandleOpen();
-  const { tasks, setTasks, handleCreateTask } = useHandleClick()
-  const {handleChecked} = useHandleChecked({tasks, setTasks})
+  const { tasks, setTasks, handleCreateTask } = useHandleClick();
+  const { handleChecked } = useHandleChecked({ tasks, setTasks });
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
