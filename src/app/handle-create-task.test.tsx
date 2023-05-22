@@ -1,16 +1,35 @@
-import { renderHook } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { renderHook, act } from '@testing-library/react';
 
-import useHandleCreateTask from "./handle-create-task";
+import useHandleClick from './handle-create-task';
 
-describe("handleCreateTaskのテスト", () => {
-  const { result } = renderHook(() => useHandleCreateTask());
+describe('handleCreateTaskのテスト', () => {
+  const { result } = renderHook(() => useHandleClick());
 
-  test("countが1増える", () => {
+  test('新しいタスクが追加される', () => {
+
+    // const initialTask = [
+    //   {
+    //     Value: 'タイトル1',
+    //     description: '説明1',
+    //     id: 1,
+    //     done: false,
+    //     active: false,
+    //   },
+    // ];
+
+    // act(() => {
+    //   result.current.setTasks(initialTask);
+    // });
+
     act(() => {
       result.current.handleCreateTask();
     });
 
-    expect(result.current.count).toBe(4);
+    expect(result.current.tasks).length(4);
+    expect(result.current.tasks[0].id).toBe(4);
+    expect(result.current.tasks[0].Value).toBe('');
+    expect(result.current.tasks[0].description).toBe('');
+    expect(result.current.tasks[0].done).toBe(false);
+    expect(result.current.tasks[0].active).toBe(false);
   });
 });

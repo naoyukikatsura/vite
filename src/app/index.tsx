@@ -5,7 +5,7 @@ import NewCreate from "@components/NewCreate";
 import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
-import useHandleCreateTask from "./handle-create-task";
+import useHandleClick from "./handle-create-task";
 import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
 
@@ -42,34 +42,10 @@ export const defaultTaskItem: Task[] = [
 ];
 
 const App = () => {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [inputDescription, setInputDescription] = useState<string>("");
-  const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
   const [checked, setChecked] = useState<boolean>(false);
 
-  const { count, handleCreateTask } = useHandleCreateTask();
   const { isOpen, handleOpen } = useHandleOpen();
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
-      if (tasks[0].Value !== "" && tasks[0].description !== "") {
-        const newTask: Task = {
-          Value: "",
-          description: "",
-          id: count,
-          done: false,
-          active: false,
-        };
-
-        setTasks([newTask, ...tasks]);
-        setInputValue("");
-        setInputDescription("");
-      }
-    },
-    [count, tasks]
-  );
+  const { tasks, setTasks, handleCreateTask } = useHandleClick()
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
@@ -97,7 +73,7 @@ const App = () => {
       });
       setTasks(newTasks);
     },
-    [tasks]
+    [setTasks, tasks]
   );
 
   const handleDescriptionEdit = useCallback(
@@ -111,12 +87,12 @@ const App = () => {
       });
       setTasks(newTasks);
     },
-    [tasks]
+    [setTasks, tasks]
   );
 
   const handleChecked = useCallback((id: number, done: boolean, active: boolean) => {
     setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
-  }, []);
+  }, [setTasks]);
   const falseTasks: Task[] = tasks.filter((task) => !task.done);
 
   const handleDeleteCheck = useCallback(() => {
@@ -124,7 +100,7 @@ const App = () => {
     setTasks([...falseTasks, ...trueTasks]);
 
     setChecked(!checked);
-  }, [checked, falseTasks, tasks]);
+  }, [checked, falseTasks, setTasks, tasks]);
 
   const listItems = (checked ? tasks : falseTasks).map((task) => (
     <li key={task.id}>
@@ -153,7 +129,7 @@ const App = () => {
           <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
         </main>
         <footer className="styles.footer">
-          <NewCreate onSubmit={handleSubmit} onCreateTask={handleCreateTask} />
+          <NewCreate onClick={handleCreateTask} />
         </footer>
       </div>
     </ThemeProvider>
