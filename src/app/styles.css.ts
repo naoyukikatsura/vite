@@ -104,7 +104,7 @@ export const menuList = style({
   width: "175px",
   position: "absolute",
   top: "50px",
-  left: "0",
+  left: "-150px",
 });
 
 export const menuTitle = style({
@@ -124,6 +124,7 @@ export const menuString = style({
 export const taskList = style({
   paddingTop: "40px",
   paddingLeft: "16px",
+  marginRight: '115px'
 });
 
 export const visuallyHidden = style({
