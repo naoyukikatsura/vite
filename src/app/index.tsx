@@ -6,6 +6,7 @@ import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
 import useHandleCreateTask from "./handle-create-task";
+import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
 
 export type Task = {
@@ -44,10 +45,10 @@ const App = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputDescription, setInputDescription] = useState<string>("");
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
 
   const { count, handleCreateTask } = useHandleCreateTask();
+  const { isOpen, handleOpen } = useHandleOpen();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -124,10 +125,6 @@ const App = () => {
 
     setChecked(!checked);
   }, [checked, falseTasks, tasks]);
-
-  const handleOpen = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
 
   const listItems = (checked ? tasks : falseTasks).map((task) => (
     <li key={task.id}>
