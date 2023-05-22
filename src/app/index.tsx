@@ -5,7 +5,7 @@ import NewCreate from "@components/NewCreate";
 import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
-import handleCreateTask from "./handle-create-task";
+import useHandleCreateTask from "./handle-create-task";
 import * as styles from "./styles.css";
 
 export type Task = {
@@ -46,11 +46,8 @@ const App = () => {
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(3);
 
-  // const handleCreateTask = useCallback(() => {
-  //   setCount(count + 1);
-  // }, [count]);
+  const { count, handleCreateTask } = useHandleCreateTask();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -159,7 +156,7 @@ const App = () => {
           <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
         </main>
         <footer className="styles.footer">
-          <NewCreate onSubmit={handleSubmit} createTask={handleCreateTask} />
+          <NewCreate onSubmit={handleSubmit} onCreateTask={handleCreateTask} />
         </footer>
       </div>
     </ThemeProvider>

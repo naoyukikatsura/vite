@@ -4,14 +4,14 @@ import * as styles from "../app/styles.css";
 
 interface Props {
   onSubmit: FormEventHandler<HTMLFormElement>;
-  createTask: () => void;
+  onCreateTask: () => void;
 }
 
-const NewCreate = ({ onSubmit, createTask }: Props) => {
+const NewCreate = ({ onSubmit, onCreateTask }: Props) => {
   return (
     <form onSubmit={onSubmit}>
       <input
-        onClick={createTask}
+        onClick={onCreateTask}
         type="submit"
         id="newcreate"
         value="+"

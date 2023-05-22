@@ -16,7 +16,7 @@ Default.args = {
   onSubmit: () => {
     alert("新規ボタンがクリックされました");
   },
-  createTask: () => {
+  onCreateTask: () => {
     alert("新規ボタンがクリックされました");
   },
 };

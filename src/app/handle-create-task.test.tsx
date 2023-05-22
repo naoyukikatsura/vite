@@ -1,10 +1,10 @@
 import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 
-import HandleCreateTask from "./handle-create-task";
+import useHandleCreateTask from "./handle-create-task";
 
 describe("handleCreateTaskのテスト", () => {
-  const { result } = renderHook(() => HandleCreateTask());
+  const { result } = renderHook(() => useHandleCreateTask());
 
   test("countが1増える", () => {
     act(() => {

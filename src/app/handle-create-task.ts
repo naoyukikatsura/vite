@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const HandleCreateTask = () => {
+const useHandleCreateTask = () => {
   const [count, setCount] = useState<number>(3);
   const handleCreateTask = useCallback(() => {
     setCount(count + 1);
@@ -9,4 +9,4 @@ const HandleCreateTask = () => {
   return { count, handleCreateTask };
 };
 
-export default HandleCreateTask;
+export default useHandleCreateTask;
