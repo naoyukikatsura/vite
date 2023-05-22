@@ -13,7 +13,7 @@ const Template: StoryFn<typeof TaskItem> = (args) => <TaskItem {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  Value: "ストーリータイトル",
+  value: "ストーリータイトル",
   description: "ストーリー説明",
   id: 1,
   done: false,

@@ -2,26 +2,32 @@ import { useCallback, useState } from "react";
 
 import { defaultTaskItem, type Task } from ".";
 
+// interface Props{
+//   tasks: Task[]
+//   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+// }
+
 const useHandleClick = () => {
-  const [count, setCount] = useState<number>(3);
+  const [id, setId] = useState<number>(3);
 
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
 
   const handleCreateTask = useCallback(() => {
 
-    if (tasks[0].Value !== "" && tasks[0].description !== "") {
-      setCount((prevCount)=>prevCount+1)
+    if (tasks[0].value !== "" && tasks[0].description !== "") {
+      const newId = id + 1
+      setId(newId)
       const newTask: Task = {
-        Value: "",
+        value: "",
         description: "",
-        id: count+1,
+        id: newId,
         done: false,
         active: false,
     };
 
     setTasks([newTask, ...tasks]);
       }
-    }, [count, tasks])
+    }, [id, setTasks, tasks])
 
 
   return { tasks, setTasks, handleCreateTask };

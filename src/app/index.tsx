@@ -5,12 +5,13 @@ import NewCreate from "@components/NewCreate";
 import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
+import useHandleChecked from "./handle-check";
 import useHandleClick from "./handle-create-task";
 import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
 
 export type Task = {
-  Value: string;
+  value: string;
   description: string;
   id: number;
   done: boolean;
@@ -19,21 +20,21 @@ export type Task = {
 
 export const defaultTaskItem: Task[] = [
   {
-    Value: "タイトル3",
+    value: "タイトル3",
     description: "説明3",
     id: 3,
     done: false,
     active: false,
   },
   {
-    Value: "タイトル2",
+    value: "タイトル2",
     description: "説明2",
     id: 2,
     done: false,
     active: false,
   },
   {
-    Value: "タイトル1",
+    value: "タイトル1",
     description: "説明1",
     id: 1,
     done: false,
@@ -46,6 +47,7 @@ const App = () => {
 
   const { isOpen, handleOpen } = useHandleOpen();
   const { tasks, setTasks, handleCreateTask } = useHandleClick()
+  const {handleChecked} = useHandleChecked({tasks, setTasks})
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
@@ -66,7 +68,7 @@ const App = () => {
     (id: number, inputValue: string) => {
       const newTasks = tasks.map((task) => {
         if (task.id === id) {
-          task.Value = inputValue;
+          task.value = inputValue;
         }
 
         return task;
@@ -90,9 +92,9 @@ const App = () => {
     [setTasks, tasks]
   );
 
-  const handleChecked = useCallback((id: number, done: boolean, active: boolean) => {
-    setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
-  }, [setTasks]);
+  // const handleChecked = useCallback((id: number, done: boolean, active: boolean) => {
+  //   setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
+  // }, [setTasks]);
   const falseTasks: Task[] = tasks.filter((task) => !task.done);
 
   const handleDeleteCheck = useCallback(() => {
@@ -105,7 +107,7 @@ const App = () => {
   const listItems = (checked ? tasks : falseTasks).map((task) => (
     <li key={task.id}>
       <TaskItem
-        Value={task.Value}
+        value={task.value}
         description={task.description}
         id={task.id}
         done={task.done}
