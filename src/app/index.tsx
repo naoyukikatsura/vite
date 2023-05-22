@@ -5,7 +5,10 @@ import NewCreate from "@components/NewCreate";
 import TaskItem from "@components/TaskItem";
 import { ThemeProvider } from "@theme/provider";
 
+import handleCreateTask from "./handle-create-task";
 import * as styles from "./styles.css";
+
+
 
 export type Task = {
   Value: string;
@@ -45,11 +48,11 @@ const App = () => {
   const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(3);
+  const [count, setCount] = useState<number>(3)
 
-  const handleCreateTask = useCallback(() => {
-    setCount(count + 1);
-  }, [count]);
+  // const handleCreateTask = useCallback(() => {
+  //   setCount(count + 1);
+  // }, [count]);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {

@@ -3,7 +3,7 @@
 // import {vi} from 'vitest'
 
 import { renderHook } from "@testing-library/react";
-import { useState, useCallback } from "react";
+// import { useState, useCallback } from "react";
 import { act } from "react-dom/test-utils";
 
 // import NewCreate from "@components/NewCreate"
@@ -22,18 +22,21 @@ import { act } from "react-dom/test-utils";
 //         })
 //   })
 
-export const Create = () => {
-  const [count, setCount] = useState<number>(3);
+import HandleCreateTask from "./handle-create-task";
 
-  const handleCreateTask = useCallback(() => {
-    setCount(count + 1);
-  }, [count]);
+// export const Create = () => {
+//   const [count, setCount] = useState<number>(3);
 
-  return { count, handleCreateTask };
-};
+//   const handleCreateTask = useCallback(() => {
+//     setCount(count + 1);
+//   }, [count]);
+
+//   return { count, handleCreateTask };
+// };
+
 
 describe("handleCreateTaskのテスト", () => {
-  const { result } = renderHook(() => Create());
+  const { result } = renderHook(() => HandleCreateTask());
 
   test("countが1増える", () => {
     act(() => {
