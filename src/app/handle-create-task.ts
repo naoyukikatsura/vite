@@ -2,11 +2,6 @@ import { useCallback, useState } from "react";
 
 import { defaultTaskItem, type Task } from ".";
 
-// interface Props{
-//   tasks: Task[]
-//   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-// }
-
 const useHandleClick = () => {
   const [id, setId] = useState<number>(3);
 
