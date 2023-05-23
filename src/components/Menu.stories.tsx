@@ -1,4 +1,4 @@
-import Menu from "./Menu";
+import Menu from "./menu";
 
 import type { Meta, StoryFn } from "@storybook/react";
 

@@ -1,4 +1,4 @@
-import TaskItem from "./TaskItem";
+import TaskItem from "./task-item";
 
 import type { Meta, StoryFn } from "@storybook/react";
 

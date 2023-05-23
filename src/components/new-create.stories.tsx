@@ -1,4 +1,4 @@
-import NewCreate from "./NewCreate";
+import NewCreate from "./new-create";
 
 import type { Meta, StoryFn } from "@storybook/react";
 
