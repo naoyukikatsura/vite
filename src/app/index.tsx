@@ -92,9 +92,6 @@ const App = () => {
     [setTasks, tasks]
   );
 
-  // const handleChecked = useCallback((id: number, done: boolean, active: boolean) => {
-  //   setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
-  // }, [setTasks]);
   const falseTasks: Task[] = tasks.filter((task) => !task.done);
 
   const handleDeleteCheck = useCallback(() => {
