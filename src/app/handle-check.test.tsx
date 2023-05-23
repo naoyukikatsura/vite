@@ -1,16 +1,49 @@
-// import { renderHook } from "@testing-library/react";
-// import { act } from "react-dom/test-utils";
+import { renderHook } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 
-// import useHandleChecked from "./handle-check";
 
-// describe("handleCreateTaskのテスト", () => {
-//   const { result } = renderHook(() => useHandleChecked(tasks, setTasks));
+import useHandleChecked from "./handle-check";
+import useHandleClick from "./handle-create-task";
 
-//   test("isOpenの真偽値が反転する", () => {
-//     act(() => {
-//       result.current.handleChecked();
-//     });
+describe('handleCheckedのテスト', () => {
+  test('タスク一覧が非表示になる', () => {
 
-//     expect(result.current.handleChecked).toBe(true);
-//   });
-// });
+    const { result } = renderHook(() =>
+    {
+      const {setTasks, tasks} = useHandleClick()
+      const {handleChecked} = useHandleChecked({setTasks})
+
+      return {handleChecked, tasks}
+    })
+
+    act(() => {
+      result.current.handleChecked(1);
+    });
+
+    expect(result.current.tasks).toEqual([
+  {
+    "active": false,
+    "description": "説明3",
+    "done": false,
+    "id": 3,
+    "value": "タイトル3",
+  },
+  {
+    "active": false,
+    "description": "説明2",
+    "done": false,
+    "id": 2,
+    "value": "タイトル2",
+  },
+  {
+    "active": false,
+    "description": "説明1",
+    "done": true,
+    "id": 1,
+    "value": "タイトル1",
+  },
+    ]);
+  });
+
+
+});

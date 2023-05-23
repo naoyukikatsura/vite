@@ -1,8 +1,8 @@
 import { memo, useState, useCallback, useRef, type MutableRefObject } from "react";
 
-import Menu from "@components/Menu";
-import NewCreate from "@components/NewCreate";
-import TaskItem from "@components/TaskItem";
+import Menu from "@components/menu";
+import NewCreate from "@components/new-create";
+import TaskItem from "@components/task-item";
 import { ThemeProvider } from "@theme/provider";
 
 import useHandleChecked from "./handle-check";
@@ -47,7 +47,7 @@ const App = () => {
 
   const { isOpen, handleOpen } = useHandleOpen();
   const { tasks, setTasks, handleCreateTask } = useHandleClick();
-  const { handleChecked } = useHandleChecked({ tasks, setTasks });
+  const { handleChecked } = useHandleChecked({ setTasks });
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
