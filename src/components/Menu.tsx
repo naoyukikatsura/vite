@@ -9,7 +9,7 @@ interface Props {
   onDeleteCheck: () => void;
 }
 
-const Menu = ({ onOpen, isOpen, onDeleteCheck, checked }: Props) => {
+const Menu = ({ isOpen, checked, onOpen, onDeleteCheck }: Props) => {
   const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
