@@ -4,14 +4,18 @@ import type { Task } from ".";
 
 interface taskProps {
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  tasks: Task[];
 }
-
-const useHandleChecked = ({ setTasks }: taskProps) => {
+const useHandleChecked = ({ setTasks, tasks }: taskProps) => {
   const handleChecked = useCallback(
     (id: number) => {
-      setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: true } : task)));
+      if (tasks[0].value !== "") {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done, completed: !task.completed } : task))
+        );
+      }
     },
-    [setTasks]
+    [setTasks, tasks]
   );
 
   return { handleChecked };

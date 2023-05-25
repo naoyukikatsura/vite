@@ -15,7 +15,7 @@ export type Task = {
   description: string;
   id: number;
   done: boolean;
-  active: boolean;
+  completed: boolean;
 };
 
 export const defaultTaskItem: Task[] = [
@@ -24,21 +24,21 @@ export const defaultTaskItem: Task[] = [
     description: "説明3",
     id: 3,
     done: false,
-    active: false,
+    completed: false,
   },
   {
     value: "タイトル2",
     description: "説明2",
     id: 2,
     done: false,
-    active: false,
+    completed: false,
   },
   {
     value: "タイトル1",
     description: "説明1",
     id: 1,
     done: false,
-    active: false,
+    completed: false,
   },
 ];
 
@@ -47,7 +47,7 @@ const App = () => {
 
   const { isOpen, handleOpen } = useHandleOpen();
   const { tasks, setTasks, handleCreateTask } = useHandleClick();
-  const { handleChecked } = useHandleChecked({ setTasks });
+  const { handleChecked } = useHandleChecked({ setTasks, tasks });
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
@@ -108,11 +108,11 @@ const App = () => {
         description={task.description}
         id={task.id}
         done={task.done}
-        active={task.active}
         onChecked={handleChecked}
         onValueEdit={handleValueEdit}
         onDescriptionEdit={handleDescriptionEdit}
         onInputRef={handleInputRef}
+        completed={task.completed}
       />
     </li>
   ));

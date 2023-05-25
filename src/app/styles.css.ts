@@ -14,10 +14,10 @@ export const root = style({
 });
 
 export const header = style({
-  height: headerSize,
+  // height: headerSize,
+  height: "0",
   display: "flex",
   alignItems: "center",
-  // border: '2px solid green',
 });
 
 export const main = style({
@@ -27,8 +27,8 @@ export const main = style({
       minHeight: calc.subtract("100dvh", headerSize, footerSize),
     },
   },
-  // border: '2px solid blue',
   display: "flex",
+  marginBottom: "150px",
 });
 
 export const footer = style({
@@ -84,6 +84,9 @@ export const taskCheckButton = style({
   height: "16px",
   marginTop: "5px",
   marginRight: "10px",
+  // appearance: 'none',
+  borderRadius: "50%",
+  // border: '1px solid #95A6A7'
 });
 
 export const newCreateString = style({
@@ -93,7 +96,9 @@ export const newCreateString = style({
 });
 
 export const menu = style({
-  position: "relative",
+  position: "fixed",
+  right: "30%",
+  top: "20px",
 });
 
 export const menuList = style({
@@ -103,7 +108,7 @@ export const menuList = style({
   height: "100px",
   width: "175px",
   position: "absolute",
-  top: "50px",
+  top: "30px",
   left: "-150px",
 });
 
@@ -127,18 +132,6 @@ export const taskList = style({
   marginRight: "115px",
 });
 
-export const visuallyHidden = style({
-  position: "absolute",
-  width: "1px",
-  height: "1px",
-  padding: "0",
-  margin: "0",
-  overflow: "hidden",
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  whiteSpace: "nowrap",
-  borderWidth: "0",
-});
 function defineProperties(arg0: { defaultCondition: string }) {
   throw new Error("Function not implemented.");
 }

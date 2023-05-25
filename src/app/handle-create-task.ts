@@ -16,7 +16,7 @@ const useHandleClick = () => {
         description: "",
         id: newId,
         done: false,
-        active: false,
+        completed: false,
       };
 
       setTasks([newTask, ...tasks]);

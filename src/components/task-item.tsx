@@ -3,27 +3,23 @@ import { forwardRef, useCallback, type LegacyRef } from "react";
 import { type Task } from "../app/index";
 import * as styles from "../app/styles.css";
 
-export interface Props extends Task {
-  onChecked: (id: number, done: boolean, active: boolean) => void;
+interface Props extends Task {
+  onChecked: (id: number) => void;
   onValueEdit: (id: number, inputValue: string) => void;
   onDescriptionEdit: (id: number, inputDescription: string) => void;
   onInputRef: LegacyRef<HTMLInputElement>;
 }
-
 const TaskItem = forwardRef(
-  (
-    { value: Value, description, id, done, active, onChecked, onValueEdit, onDescriptionEdit, onInputRef }: Props,
-    ref
-  ) => {
+  ({ value, description, id, done, onChecked, onValueEdit, onDescriptionEdit, onInputRef, completed }: Props, ref) => {
     return (
       <div className={styles.taskItem}>
         <input
-          type="radio"
+          type="checkbox"
           onChange={useCallback(() => {
-            onChecked(id, done, active);
-          }, [active, done, id, onChecked])}
+            onChecked(id);
+          }, [id, onChecked])}
           className={styles.taskCheckButton}
-          checked={done}
+          checked={completed}
         />
         <div>
           <div>
@@ -33,9 +29,9 @@ const TaskItem = forwardRef(
                 (event: React.ChangeEvent<HTMLInputElement>) => onValueEdit(id, event.target.value),
                 [id, onValueEdit]
               )}
-              value={Value}
+              value={value}
               disabled={done}
-              className={`${styles.titleInput} ${active ? styles.stringIsGray : ""}`}
+              className={`${styles.titleInput} ${done ? styles.stringIsGray : ""}`}
               ref={onInputRef}
             />
           </div>
