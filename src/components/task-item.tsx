@@ -1,7 +1,9 @@
 import { forwardRef, useCallback, type LegacyRef } from "react";
+import { useDispatch } from "react-redux";
 
 import { type Task } from "../app/index";
 import * as styles from "../app/styles.css";
+import { removeItem } from "../features/task/TaskSlice";
 
 interface Props extends Task {
   onChecked: (id: number) => void;
@@ -11,8 +13,17 @@ interface Props extends Task {
 }
 const TaskItem = forwardRef(
   ({ value, description, id, done, onChecked, onValueEdit, onDescriptionEdit, onInputRef, completed }: Props, ref) => {
+    const dispatch = useDispatch();
+
     return (
       <div className={styles.taskItem}>
+        <button
+          onClick={useCallback(() => {
+            dispatch(removeItem(id));
+          }, [dispatch, id])}
+        >
+          完了
+        </button>
         <input
           type="checkbox"
           onChange={useCallback(() => {

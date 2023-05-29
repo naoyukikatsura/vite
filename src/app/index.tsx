@@ -1,22 +1,25 @@
 import { memo, useState, useCallback, useRef, type MutableRefObject } from "react";
+import { Provider } from "react-redux";
 
 import Menu from "@components/menu";
 import NewCreate from "@components/new-create";
 import TaskItem from "@components/task-item";
 import { ThemeProvider } from "@theme/provider";
 
+import { store } from "../store";
+
 import useHandleChecked from "./handle-check";
 import useHandleClick from "./handle-create-task";
 import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
 
-export type Task = {
+export interface Task {
   value: string;
   description: string;
   id: number;
   done: boolean;
   completed: boolean;
-};
+}
 
 export const defaultTaskItem: Task[] = [
   {
@@ -119,18 +122,20 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <div className={styles.root}>
-        <header className={styles.header}></header>
-        <main className={styles.main}>
-          <div className={styles.taskList}>
-            <ul>{listItems}</ul>
-          </div>
-          <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
-        </main>
-        <footer className="styles.footer">
-          <NewCreate onClick={handleCreateTask} />
-        </footer>
-      </div>
+      <Provider store={store}>
+        <div className={styles.root}>
+          <header className={styles.header}></header>
+          <main className={styles.main}>
+            <div className={styles.taskList}>
+              <ul>{listItems}</ul>
+            </div>
+            <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
+          </main>
+          <footer className="styles.footer">
+            <NewCreate onClick={handleCreateTask} />
+          </footer>
+        </div>
+      </Provider>
     </ThemeProvider>
   );
 };
