@@ -43,17 +43,28 @@ const taskSlice = createSlice({
     // チェックしたら非表示になる
     removeItem: (state, action) => {
       const itemId = action.payload;
-      state.taskItems = state.taskItems.filter((item) => item.id !== itemId);
-      alert("クリックされた");
+      state.taskItems = state.taskItems.map((item) =>
+        item.id === itemId ? { ...item, done: !item.done, completed: !item.completed } : item
+      );
     },
+    // 新しいタスクを作成する
+    createItem: (state, action) => {
+      const newId = action.payload + 1;
+      const newTaskItem: Task = {
+        value: "",
+        description: "",
+        id: newId,
+        done: false,
+        completed: false,
+      };
+      state.taskItems.unshift(newTaskItem);
+    },
+    // タイトル編集
+    //     valueEdit: (state, action) => {
 
-    //   if (tasks[0].value !== "") {
-    //   setTasks((prevTasks) =>
-    //     prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done, completed: !task.completed } : task))
-    //   );
-    // }
+    //   }
   },
 });
 
-export const { removeItem } = taskSlice.actions;
+export const { removeItem, createItem } = taskSlice.actions;
 export default taskSlice.reducer;

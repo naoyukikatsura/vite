@@ -6,35 +6,36 @@ import * as styles from "../app/styles.css";
 import { removeItem } from "../features/task/TaskSlice";
 
 interface Props extends Task {
-  onChecked: (id: number) => void;
+  // onChecked: (id: number) => void;
   onValueEdit: (id: number, inputValue: string) => void;
   onDescriptionEdit: (id: number, inputDescription: string) => void;
   onInputRef: LegacyRef<HTMLInputElement>;
 }
 const TaskItem = forwardRef(
-  ({ value, description, id, done, onChecked, onValueEdit, onDescriptionEdit, onInputRef, completed }: Props, ref) => {
+  ({ value, description, id, done, onValueEdit, onDescriptionEdit, onInputRef, completed }: Props, ref) => {
     const dispatch = useDispatch();
 
     return (
       <div className={styles.taskItem}>
-        <button
-          onClick={useCallback(() => {
-            dispatch(removeItem(id));
-          }, [dispatch, id])}
-        >
-          完了
-        </button>
-        <input
+        {/* <input
           type="checkbox"
           onChange={useCallback(() => {
             onChecked(id);
           }, [id, onChecked])}
           className={styles.taskCheckButton}
           checked={completed}
+        /> */}
+        <input
+          type="checkbox"
+          onChange={useCallback(() => {
+            dispatch(removeItem(id));
+          }, [dispatch, id])}
+          className={styles.taskCheckButton}
+          checked={completed}
         />
         <div>
           <div>
-            <input
+            {/* <input
               type="text"
               onChange={useCallback(
                 (event: React.ChangeEvent<HTMLInputElement>) => onValueEdit(id, event.target.value),
@@ -44,7 +45,18 @@ const TaskItem = forwardRef(
               disabled={done}
               className={`${styles.titleInput} ${done ? styles.stringIsGray : ""}`}
               ref={onInputRef}
-            />
+            /> */}
+            {/* <input
+              type="text"
+              onChange={useCallback(
+                (event: React.ChangeEvent<HTMLInputElement>) => dispatch(valueEdit(id, event.target.value)),
+                [dispatch, id]
+              )}
+              value={value}
+              disabled={done}
+              className={`${styles.titleInput} ${done ? styles.stringIsGray : ""}`}
+              ref={onInputRef}
+            /> */}
           </div>
           <div>
             <input

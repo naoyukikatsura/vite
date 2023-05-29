@@ -1,14 +1,14 @@
 import { memo, useState, useCallback, useRef, type MutableRefObject } from "react";
-import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Menu from "@components/menu";
 import NewCreate from "@components/new-create";
 import TaskItem from "@components/task-item";
 import { ThemeProvider } from "@theme/provider";
 
-import { store } from "../store";
+import { type RootState } from "../store";
 
-import useHandleChecked from "./handle-check";
+// import useHandleChecked from "./handle-check";
 import useHandleClick from "./handle-create-task";
 import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
@@ -46,11 +46,14 @@ export const defaultTaskItem: Task[] = [
 ];
 
 const App = () => {
+  const { taskItems } = useSelector((store: RootState) => store.task);
+
   const [checked, setChecked] = useState<boolean>(false);
 
   const { isOpen, handleOpen } = useHandleOpen();
   const { tasks, setTasks, handleCreateTask } = useHandleClick();
-  const { handleChecked } = useHandleChecked({ setTasks, tasks });
+
+  // const { handleChecked } = useHandleChecked( {setTasks, tasks} );
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
@@ -95,7 +98,9 @@ const App = () => {
     [setTasks, tasks]
   );
 
-  const falseTasks: Task[] = tasks.filter((task) => !task.done);
+  // ここを変える
+  // const falseTasks: Task[] = tasks.filter((task) => !task.done);
+  const falseTasks: Task[] = taskItems.filter((item) => !item.done);
 
   const handleDeleteCheck = useCallback(() => {
     const trueTasks: Task[] = tasks.filter((task) => task.done);
@@ -104,38 +109,39 @@ const App = () => {
     setChecked(!checked);
   }, [checked, falseTasks, setTasks, tasks]);
 
-  const listItems = (checked ? tasks : falseTasks).map((task) => (
-    <li key={task.id}>
-      <TaskItem
-        value={task.value}
-        description={task.description}
-        id={task.id}
-        done={task.done}
-        onChecked={handleChecked}
-        onValueEdit={handleValueEdit}
-        onDescriptionEdit={handleDescriptionEdit}
-        onInputRef={handleInputRef}
-        completed={task.completed}
-      />
-    </li>
-  ));
+  const listItems = (checked ? taskItems : falseTasks).map((task) => {
+    // const listItems = taskItems.map((task) => {
+    return (
+      <li key={task.id}>
+        <TaskItem
+          value={task.value}
+          description={task.description}
+          id={task.id}
+          done={task.done}
+          // onChecked={handleChecked}
+          onValueEdit={handleValueEdit}
+          onDescriptionEdit={handleDescriptionEdit}
+          onInputRef={handleInputRef}
+          completed={task.completed}
+        />
+      </li>
+    );
+  });
 
   return (
     <ThemeProvider>
-      <Provider store={store}>
-        <div className={styles.root}>
-          <header className={styles.header}></header>
-          <main className={styles.main}>
-            <div className={styles.taskList}>
-              <ul>{listItems}</ul>
-            </div>
-            <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
-          </main>
-          <footer className="styles.footer">
-            <NewCreate onClick={handleCreateTask} />
-          </footer>
-        </div>
-      </Provider>
+      <div className={styles.root}>
+        <header className={styles.header}></header>
+        <main className={styles.main}>
+          <div className={styles.taskList}>
+            <ul>{listItems}</ul>
+          </div>
+          <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
+        </main>
+        <footer className="styles.footer">
+          <NewCreate id={taskItems[0].id} />
+        </footer>
+      </div>
     </ThemeProvider>
   );
 };
