@@ -70,33 +70,33 @@ const App = () => {
     inputElement.focus();
   }, []);
 
-  const handleValueEdit = useCallback(
-    (id: number, inputValue: string) => {
-      const newTasks = tasks.map((task) => {
-        if (task.id === id) {
-          task.value = inputValue;
-        }
+  // const handleValueEdit = useCallback(
+  //   (id: number, inputValue: string) => {
+  //     const newTasks = tasks.map((task) => {
+  //       if (task.id === id) {
+  //         task.value = inputValue;
+  //       }
 
-        return task;
-      });
-      setTasks(newTasks);
-    },
-    [setTasks, tasks]
-  );
+  //       return task;
+  //     });
+  //     setTasks(newTasks);
+  //   },
+  //   [setTasks, tasks]
+  // );
 
-  const handleDescriptionEdit = useCallback(
-    (id: number, inputDescription: string) => {
-      const newTasks = tasks.map((task) => {
-        if (task.id === id) {
-          task.description = inputDescription;
-        }
+  // const handleDescriptionEdit = useCallback(
+  //   (id: number, inputDescription: string) => {
+  //     const newTasks = tasks.map((task) => {
+  //       if (task.id === id) {
+  //         task.description = inputDescription;
+  //       }
 
-        return task;
-      });
-      setTasks(newTasks);
-    },
-    [setTasks, tasks]
-  );
+  //       return task;
+  //     });
+  //     setTasks(newTasks);
+  //   },
+  //   [setTasks, tasks]
+  // );
 
   // ここを変える
   // const falseTasks: Task[] = tasks.filter((task) => !task.done);
@@ -119,8 +119,8 @@ const App = () => {
           id={task.id}
           done={task.done}
           // onChecked={handleChecked}
-          onValueEdit={handleValueEdit}
-          onDescriptionEdit={handleDescriptionEdit}
+          // onValueEdit={handleValueEdit}
+          // onDescriptionEdit={handleDescriptionEdit}
           onInputRef={handleInputRef}
           completed={task.completed}
         />

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface Task {
   value: string;
@@ -30,7 +30,11 @@ export const taskItems: Task[] = [
     done: false,
     completed: false,
   },
-];
+] as Task[];
+
+type PayloadValueObj = Pick<Task, "id" | "value">;
+
+type PayloadDescriptionObj = Pick<Task, "id" | "description">;
 
 const initialState = {
   taskItems,
@@ -41,14 +45,14 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     // チェックしたら非表示になる
-    removeItem: (state, action) => {
+    removeItem: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
       state.taskItems = state.taskItems.map((item) =>
         item.id === itemId ? { ...item, done: !item.done, completed: !item.completed } : item
       );
     },
     // 新しいタスクを作成する
-    createItem: (state, action) => {
+    createItem: (state, action: PayloadAction<number>) => {
       const newId = action.payload + 1;
       const newTaskItem: Task = {
         value: "",
@@ -60,11 +64,17 @@ const taskSlice = createSlice({
       state.taskItems.unshift(newTaskItem);
     },
     // タイトル編集
-    //     valueEdit: (state, action) => {
-
-    //   }
+    valueEdit: (state, action: PayloadAction<PayloadValueObj>) => {
+      const { id, value } = action.payload;
+      state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, value } : item));
+    },
+    // 説明の編集
+    descriptionEdit: (state, action: PayloadAction<PayloadDescriptionObj>) => {
+      const { id, description } = action.payload;
+      state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, description } : item));
+    },
   },
 });
 
-export const { removeItem, createItem } = taskSlice.actions;
+export const { removeItem, createItem, valueEdit, descriptionEdit } = taskSlice.actions;
 export default taskSlice.reducer;
