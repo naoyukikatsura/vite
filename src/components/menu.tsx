@@ -1,15 +1,24 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useRef, type RefObject, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as styles from "../app/styles.css";
+import { openMenu } from "../features/menu/MenuSlice";
+
+import type { RootState } from "../store";
 
 interface Props {
-  isOpen: boolean;
+  // isOpen: boolean;
   checked: boolean;
-  onOpen: () => void;
+  // onOpen: () => void;
   onDeleteCheck: () => void;
 }
 
-const Menu = ({ isOpen, checked, onOpen, onDeleteCheck }: Props) => {
+const Menu = ({ checked, onDeleteCheck }: Props) => {
+  const dispatch = useDispatch();
+
+  // const { menuState } = useSelector((store: RootState) => store.menu);
+  const { isOpen } = useSelector((state: RootState) => state.menu);
+
   const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,7 +28,10 @@ const Menu = ({ isOpen, checked, onOpen, onDeleteCheck }: Props) => {
   return (
     <div className={styles.menu}>
       <button
-        onClick={onOpen}
+        // onClick={onOpen}
+        onClick={useCallback(() => {
+          dispatch(openMenu());
+        }, [dispatch])}
         type="button"
         aria-haspopup="true"
         aria-expanded={isOpen}

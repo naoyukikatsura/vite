@@ -10,47 +10,50 @@ import { type RootState } from "../store";
 
 // import useHandleChecked from "./handle-check";
 import useHandleClick from "./handle-create-task";
-import useHandleOpen from "./handle-open";
+// import useHandleOpen from "./handle-open";
 import * as styles from "./styles.css";
 
-export interface Task {
-  value: string;
-  description: string;
-  id: number;
-  done: boolean;
-  completed: boolean;
-}
+import type { Task } from "../features/task/TaskSlice";
 
-export const defaultTaskItem: Task[] = [
-  {
-    value: "タイトル3",
-    description: "説明3",
-    id: 3,
-    done: false,
-    completed: false,
-  },
-  {
-    value: "タイトル2",
-    description: "説明2",
-    id: 2,
-    done: false,
-    completed: false,
-  },
-  {
-    value: "タイトル1",
-    description: "説明1",
-    id: 1,
-    done: false,
-    completed: false,
-  },
-];
+// export interface Task {
+//   value: string;
+//   description: string;
+//   id: number;
+//   done: boolean;
+//   completed: boolean;
+// }
+
+// export const defaultTaskItem: Task[] = [
+//   {
+//     value: "タイトル3",
+//     description: "説明3",
+//     id: 3,
+//     done: false,
+//     completed: false,
+//   },
+//   {
+//     value: "タイトル2",
+//     description: "説明2",
+//     id: 2,
+//     done: false,
+//     completed: false,
+//   },
+//   {
+//     value: "タイトル1",
+//     description: "説明1",
+//     id: 1,
+//     done: false,
+//     completed: false,
+//   },
+// ];
 
 const App = () => {
   const { taskItems } = useSelector((store: RootState) => store.task);
+  const { isOpen } = useSelector((state: RootState) => state.menu);
 
   const [checked, setChecked] = useState<boolean>(false);
 
-  const { isOpen, handleOpen } = useHandleOpen();
+  // const { isOpen, handleOpen } = useHandleOpen();
   const { tasks, setTasks, handleCreateTask } = useHandleClick();
 
   // const { handleChecked } = useHandleChecked( {setTasks, tasks} );
@@ -118,11 +121,11 @@ const App = () => {
           description={task.description}
           id={task.id}
           done={task.done}
+          completed={task.completed}
           // onChecked={handleChecked}
           // onValueEdit={handleValueEdit}
           // onDescriptionEdit={handleDescriptionEdit}
           onInputRef={handleInputRef}
-          completed={task.completed}
         />
       </li>
     );
@@ -136,7 +139,7 @@ const App = () => {
           <div className={styles.taskList}>
             <ul>{listItems}</ul>
           </div>
-          <Menu onOpen={handleOpen} isOpen={isOpen} onDeleteCheck={handleDeleteCheck} checked={checked} />
+          <Menu onDeleteCheck={handleDeleteCheck} checked={checked} />
         </main>
         <footer className="styles.footer">
           <NewCreate id={taskItems[0].id} />

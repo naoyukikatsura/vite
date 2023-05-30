@@ -1,9 +1,8 @@
 import { forwardRef, useCallback, type LegacyRef } from "react";
 import { useDispatch } from "react-redux";
 
-import { type Task } from "../app/index";
 import * as styles from "../app/styles.css";
-import { removeItem, valueEdit, descriptionEdit } from "../features/task/TaskSlice";
+import { removeItem, valueEdit, descriptionEdit, type Task } from "../features/task/TaskSlice";
 
 interface Props extends Task {
   // onChecked: (id: number) => void;

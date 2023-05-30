@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 
-import { defaultTaskItem, type Task } from ".";
+import { taskItems, type Task } from "../features/task/TaskSlice";
 
 const useHandleClick = () => {
   const [id, setId] = useState<number>(3);
 
-  const [tasks, setTasks] = useState<Task[]>(defaultTaskItem);
+  const [tasks, setTasks] = useState<Task[]>(taskItems);
 
   const handleCreateTask = useCallback(() => {
     if (tasks[0].value !== "") {
