@@ -2,7 +2,7 @@ import { forwardRef, useCallback, type LegacyRef } from "react";
 import { useDispatch } from "react-redux";
 
 import * as styles from "../app/styles.css";
-import { removeItem, valueEdit, descriptionEdit, type Task } from "../features/task/TaskSlice";
+import { removeItem, editValue, editDescription, type Task } from "../features/task/TaskSlice";
 
 interface Props extends Task {
   // onChecked: (id: number) => void;
@@ -49,7 +49,7 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef, complet
             onChange={useCallback(
               (event: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(
-                  valueEdit({
+                  editValue({
                     id,
                     value: event.target.value,
                   })
@@ -78,7 +78,7 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef, complet
             onChange={useCallback(
               (event: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(
-                  descriptionEdit({
+                  editDescription({
                     id,
                     description: event.target.value,
                   })

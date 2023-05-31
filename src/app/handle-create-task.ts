@@ -1,29 +1,29 @@
-import { useCallback, useState } from "react";
+// import { useCallback, useState } from "react";
 
-import { taskItems, type Task } from "../features/task/TaskSlice";
+// import { taskItems, type Task } from "../features/task/TaskSlice";
 
-const useHandleClick = () => {
-  const [id, setId] = useState<number>(3);
+// const useHandleClick = () => {
+//   const [id, setId] = useState<number>(3);
 
-  const [tasks, setTasks] = useState<Task[]>(taskItems);
+//   const [tasks, setTasks] = useState<Task[]>(taskItems);
 
-  const handleCreateTask = useCallback(() => {
-    if (tasks[0].value !== "") {
-      const newId = id + 1;
-      setId(newId);
-      const newTask: Task = {
-        value: "",
-        description: "",
-        id: newId,
-        done: false,
-        completed: false,
-      };
+//   const handleCreateTask = useCallback(() => {
+//     if (tasks[0].value !== "") {
+//       const newId = id + 1;
+//       setId(newId);
+//       const newTask: Task = {
+//         value: "",
+//         description: "",
+//         id: newId,
+//         done: false,
+//         completed: false,
+//       };
 
-      setTasks([newTask, ...tasks]);
-    }
-  }, [id, setTasks, tasks]);
+//       setTasks([newTask, ...tasks]);
+//     }
+//   }, [id, setTasks, tasks]);
 
-  return { tasks, setTasks, handleCreateTask };
-};
+//   return { tasks, setTasks, handleCreateTask };
+// };
 
-export default useHandleClick;
+// export default useHandleClick;

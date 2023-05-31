@@ -64,17 +64,36 @@ const taskSlice = createSlice({
       state.taskItems.unshift(newTaskItem);
     },
     // タイトル編集
-    valueEdit: (state, action: PayloadAction<PayloadValueObj>) => {
+    editValue: (state, action: PayloadAction<PayloadValueObj>) => {
       const { id, value } = action.payload;
       state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, value } : item));
     },
     // 説明の編集
-    descriptionEdit: (state, action: PayloadAction<PayloadDescriptionObj>) => {
+    editDescription: (state, action: PayloadAction<PayloadDescriptionObj>) => {
       const { id, description } = action.payload;
       state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, description } : item));
     },
+    // 非表示タスクを表示する
+    toggleTask: (state) => {
+      const trueTaskItems = state.taskItems.filter((item) => item.done);
+      const falseTaskItems = state.taskItems.filter((item) => !item.done)
+
+      // state.taskItems = state.taskItems.sort((a, b) => {
+      //   if (a.done && !b.done) {
+      //     return 1
+      //   } else if (!a.done && b.done) {
+      //     return -1
+      //   }
+      //   return 0
+      // })
+
+      state.taskItems = [...falseTaskItems, ...trueTaskItems]
+
+      // console.log('できた')
+      // console.log(taskItems)
+    }
   },
 });
 
-export const { removeItem, createItem, valueEdit, descriptionEdit } = taskSlice.actions;
+export const { removeItem, createItem, editValue, editDescription, toggleTask } = taskSlice.actions;
 export default taskSlice.reducer;

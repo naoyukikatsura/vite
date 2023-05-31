@@ -1,19 +1,20 @@
-import { memo, useState, useCallback, useRef, type MutableRefObject } from "react";
-import { useSelector } from "react-redux";
+import { memo, useCallback, useRef, type MutableRefObject } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Menu from "@components/menu";
 import NewCreate from "@components/new-create";
 import TaskItem from "@components/task-item";
 import { ThemeProvider } from "@theme/provider";
 
+import { toggleCheck } from "../features/menu/MenuSlice";
+import { toggleTask, type Task } from "../features/task/TaskSlice";
 import { type RootState } from "../store";
 
 // import useHandleChecked from "./handle-check";
-import useHandleClick from "./handle-create-task";
 // import useHandleOpen from "./handle-open";
+// import useHandleClick from "./handle-create-task";
 import * as styles from "./styles.css";
 
-import type { Task } from "../features/task/TaskSlice";
 
 // export interface Task {
 //   value: string;
@@ -48,13 +49,17 @@ import type { Task } from "../features/task/TaskSlice";
 // ];
 
 const App = () => {
-  const { taskItems } = useSelector((store: RootState) => store.task);
-  const { isOpen } = useSelector((state: RootState) => state.menu);
+  const dispatch = useDispatch()
 
-  const [checked, setChecked] = useState<boolean>(false);
+  const { taskItems } = useSelector((store: RootState) => store.task);
+  const { isChecked } = useSelector((state: RootState) => state.menu);
+
+
+
+  // const [isChecked, setIsChecked] = useState<boolean>(false);
 
   // const { isOpen, handleOpen } = useHandleOpen();
-  const { tasks, setTasks, handleCreateTask } = useHandleClick();
+  // const { tasks, setTasks, handleCreateTask } = useHandleClick();
 
   // const { handleChecked } = useHandleChecked( {setTasks, tasks} );
 
@@ -101,18 +106,24 @@ const App = () => {
   //   [setTasks, tasks]
   // );
 
-  // ここを変える
   // const falseTasks: Task[] = tasks.filter((task) => !task.done);
   const falseTasks: Task[] = taskItems.filter((item) => !item.done);
 
-  const handleDeleteCheck = useCallback(() => {
-    const trueTasks: Task[] = tasks.filter((task) => task.done);
-    setTasks([...falseTasks, ...trueTasks]);
+  // Reduxここ変える
+  const handleToggleTask = useCallback(() => {
+    // const trueTasks: Task[] = taskItems.filter((item) => item.done);
+    // setTasks([...falseTasks, ...trueTasks]);
+    dispatch((toggleTask()))
 
-    setChecked(!checked);
-  }, [checked, falseTasks, setTasks, tasks]);
+    // isCheckedを消してみる
+    // setIsChecked(!isChecked);
+    dispatch((toggleCheck()))
+  }, [dispatch]);
 
-  const listItems = (checked ? taskItems : falseTasks).map((task) => {
+
+
+
+  const listItems = (isChecked ? taskItems : falseTasks).map((task) => {
     // const listItems = taskItems.map((task) => {
     return (
       <li key={task.id}>
@@ -139,7 +150,7 @@ const App = () => {
           <div className={styles.taskList}>
             <ul>{listItems}</ul>
           </div>
-          <Menu onDeleteCheck={handleDeleteCheck} checked={checked} />
+          <Menu onDeleteCheck={handleToggleTask} checked={isChecked} />
         </main>
         <footer className="styles.footer">
           <NewCreate id={taskItems[0].id} />

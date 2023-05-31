@@ -2,7 +2,7 @@ import { useEffect, useRef, type RefObject, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as styles from "../app/styles.css";
-import { openMenu } from "../features/menu/MenuSlice";
+import { toggleMenu } from "../features/menu/MenuSlice";
 
 import type { RootState } from "../store";
 
@@ -30,7 +30,7 @@ const Menu = ({ checked, onDeleteCheck }: Props) => {
       <button
         // onClick={onOpen}
         onClick={useCallback(() => {
-          dispatch(openMenu());
+          dispatch(toggleMenu());
         }, [dispatch])}
         type="button"
         aria-haspopup="true"
