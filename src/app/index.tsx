@@ -10,9 +10,6 @@ import { toggleCheck } from "../features/menu/MenuSlice";
 import { toggleTask, type Task } from "../features/task/TaskSlice";
 import { type RootState } from "../store";
 
-// import useHandleChecked from "./handle-check";
-// import useHandleOpen from "./handle-open";
-// import useHandleClick from "./handle-create-task";
 import * as styles from "./styles.css";
 
 const App = () => {
@@ -20,13 +17,6 @@ const App = () => {
 
   const { taskItems } = useSelector((store: RootState) => store.task);
   const { isChecked } = useSelector((state: RootState) => state.menu);
-
-  // const [isChecked, setIsChecked] = useState<boolean>(false);
-
-  // const { isOpen, handleOpen } = useHandleOpen();
-  // const { tasks, setTasks, handleCreateTask } = useHandleClick();
-
-  // const { handleChecked } = useHandleChecked( {setTasks, tasks} );
 
   const inputRefs: MutableRefObject<(HTMLInputElement | null)[]> = useRef([]);
 
@@ -43,50 +33,16 @@ const App = () => {
     inputElement.focus();
   }, []);
 
-  // const handleValueEdit = useCallback(
-  //   (id: number, inputValue: string) => {
-  //     const newTasks = tasks.map((task) => {
-  //       if (task.id === id) {
-  //         task.value = inputValue;
-  //       }
-
-  //       return task;
-  //     });
-  //     setTasks(newTasks);
-  //   },
-  //   [setTasks, tasks]
-  // );
-
-  // const handleDescriptionEdit = useCallback(
-  //   (id: number, inputDescription: string) => {
-  //     const newTasks = tasks.map((task) => {
-  //       if (task.id === id) {
-  //         task.description = inputDescription;
-  //       }
-
-  //       return task;
-  //     });
-  //     setTasks(newTasks);
-  //   },
-  //   [setTasks, tasks]
-  // );
-
-  // const falseTasks: Task[] = tasks.filter((task) => !task.done);
   const falseTasks: Task[] = taskItems.filter((item) => !item.done);
 
-  // Reduxここ変える
   const handleToggleTask = useCallback(() => {
-    // const trueTasks: Task[] = taskItems.filter((item) => item.done);
-    // setTasks([...falseTasks, ...trueTasks]);
+    // 未チェックタスクだけを表示するのか、チェック済タスクを含めた全タスクを表示するのかを決定
     dispatch(toggleTask());
-
-    // isCheckedを消してみる
-    // setIsChecked(!isChecked);
+    // メニューリストのチェックボックスのチェックの有無を変更
     dispatch(toggleCheck());
   }, [dispatch]);
 
   const listItems = (isChecked ? taskItems : falseTasks).map((task) => {
-    // const listItems = taskItems.map((task) => {
     return (
       <li key={task.id}>
         <TaskItem
@@ -94,9 +50,6 @@ const App = () => {
           description={task.description}
           id={task.id}
           done={task.done}
-          // onChecked={handleChecked}
-          // onValueEdit={handleValueEdit}
-          // onDescriptionEdit={handleDescriptionEdit}
           onInputRef={handleInputRef}
         />
       </li>
