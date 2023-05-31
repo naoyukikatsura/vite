@@ -16,11 +16,13 @@ const menuSlice = createSlice({
   name: "menu",
   initialState,
   reducers: {
-    // メニューボタンクリックでisOpenの真偽値を反転
+    // isOpenの真偽値を反転
+    // isOpenがtrueのときメニューリストが表示される
     toggleMenu: (state) => {
       state.isOpen = !state.isOpen;
     },
-    // メニューのチェックボックスをチェックでisCheckedの真偽値を反転
+    // isCheckedの真偽値を反転
+    // isCheckedがtrueのときメニューリストのチェックボックスにチェックが入る
     toggleCheck: (state) => {
       state.isChecked = !state.isChecked;
     },

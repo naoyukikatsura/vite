@@ -42,31 +42,32 @@ const App = () => {
     dispatch(toggleCheck());
   }, [dispatch]);
 
-  const listItems = (isChecked ? taskItems : falseTasks).map((task) => {
-    return (
-      <li key={task.id}>
-        <TaskItem
-          value={task.value}
-          description={task.description}
-          id={task.id}
-          done={task.done}
-          onInputRef={handleInputRef}
-        />
-      </li>
-    );
-  });
-
   return (
     <ThemeProvider>
       <div className={styles.root}>
         <header className={styles.header}></header>
         <main className={styles.main}>
           <div className={styles.taskList}>
-            <ul>{listItems}</ul>
+            <ul>
+              {(isChecked ? taskItems : falseTasks).map((task) => {
+                return (
+                  <li key={task.id}>
+                    <TaskItem
+                      value={task.value}
+                      description={task.description}
+                      id={task.id}
+                      done={task.done}
+                      onInputRef={handleInputRef}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <Menu onDeleteCheck={handleToggleTask} checked={isChecked} />
         </main>
-        <footer className="styles.footer">
+        {/* <footer className={styles.footer}> */}
+        <footer>
           <NewCreate id={taskItems[0].id} />
         </footer>
       </div>

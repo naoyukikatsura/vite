@@ -40,15 +40,21 @@ const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
-    // チェックしたら非表示になる
-    hiddenItem: (state, action: PayloadAction<number>) => {
+    // タスクチェックボックスのチェックを切り替え
+    // タスクのチェックは完了済であることを示す
+    toggleItem: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
-      state.taskItems = state.taskItems.map((item) =>
-        item.id === itemId ? { ...item, done: !item.done } : item
-      );
+      state.taskItems = state.taskItems.map((item) => (item.id === itemId ? { ...item, done: !item.done } : item));
     },
-    // 新しいタスクを作成する
-    createItem: (state, action: PayloadAction<number>) => {
+    // toggleItem: (state, action: PayloadAction<number>) => {
+    //   const itemId = action.payload;
+    //   if (taskItems[itemId].value === ''){return}
+    //   state.taskItems = state.taskItems.map((item) =>
+    //     item.id === itemId ? { ...item, done: !item.done } : item
+    //   );
+    // },
+    // 新しいタスクを作成
+    createTaskItem: (state, action: PayloadAction<number>) => {
       const newId = action.payload + 1;
       const newTaskItem: Task = {
         value: "",
@@ -58,20 +64,21 @@ const taskSlice = createSlice({
       };
       state.taskItems.unshift(newTaskItem);
     },
-    // タイトル編集
+    // タスクタイトル編集
     editValue: (state, action: PayloadAction<PayloadValueObj>) => {
       const { id, value } = action.payload;
       state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, value } : item));
     },
-    // 説明の編集
+    // タスク説明の編集
     editDescription: (state, action: PayloadAction<PayloadDescriptionObj>) => {
       const { id, description } = action.payload;
       state.taskItems = state.taskItems.map((item) => (item.id === id ? { ...item, description } : item));
     },
-    // 非表示タスクを表示する
+    // 非表示タスクの表示するかしないか変更
     toggleTask: (state) => {
       const trueTaskItems = state.taskItems.filter((item) => item.done);
       const falseTaskItems = state.taskItems.filter((item) => !item.done);
+      state.taskItems = [...falseTaskItems, ...trueTaskItems];
 
       // state.taskItems = state.taskItems.sort((a, b) => {
       //   if (a.done && !b.done) {
@@ -79,16 +86,12 @@ const taskSlice = createSlice({
       //   } else if (!a.done && b.done) {
       //     return -1
       //   }
+
       //   return 0
       // })
-
-      state.taskItems = [...falseTaskItems, ...trueTaskItems];
-
-      // console.log('できた')
-      // console.log(taskItems)
     },
   },
 });
 
-export const { hiddenItem, createItem, editValue, editDescription, toggleTask } = taskSlice.actions;
+export const { toggleItem, createTaskItem, editValue, editDescription, toggleTask } = taskSlice.actions;
 export default taskSlice.reducer;

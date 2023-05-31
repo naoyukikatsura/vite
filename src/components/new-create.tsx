@@ -1,31 +1,30 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as styles from "../app/styles.css";
-import { createItem } from "../features/task/TaskSlice";
+import { createTaskItem } from "../features/task/TaskSlice";
+
+import type { RootState } from "../store";
 
 interface Props {
-  // onClick: () => void;
   id: number;
 }
 
-// const NewCreate = ({ onClick }: Props) => {
 const NewCreate = ({ id }: Props) => {
   const dispatch = useDispatch();
+  const { taskItems } = useSelector((store: RootState) => store.task);
+
+  const handleClick = useCallback(() => {
+    if (taskItems[0].value === "") {
+      return;
+    }
+    dispatch(createTaskItem(id));
+  }, [dispatch, id, taskItems]);
 
   return (
     <div>
-      {/* <input
-        onClick={onClick}
-        type="submit"
-        id="newcreate"
-        value="+"
-        className={`${styles.commonButton} ${styles.createButton}`}
-      /> */}
       <input
-        onClick={useCallback(() => {
-          dispatch(createItem(id));
-        }, [dispatch, id])}
+        onClick={handleClick}
         type="submit"
         id="newcreate"
         value="+"

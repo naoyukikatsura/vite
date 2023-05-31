@@ -1,48 +1,35 @@
 import { forwardRef, useCallback, type LegacyRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as styles from "../app/styles.css";
-import { hiddenItem, editValue, editDescription, type Task } from "../features/task/TaskSlice";
+import { toggleItem, editValue, editDescription, type Task } from "../features/task/TaskSlice";
+
+import type { RootState } from "../store";
 
 interface Props extends Task {
-  // onChecked: (id: number) => void;
-  // onValueEdit: (id: number, inputValue: string) => void;
-  // onDescriptionEdit: (id: number, inputDescription: string) => void;
   onInputRef: LegacyRef<HTMLInputElement>;
 }
 const TaskItem = forwardRef(({ value, description, id, done, onInputRef }: Props, ref) => {
   const dispatch = useDispatch();
+  const { taskItems } = useSelector((store: RootState) => store.task);
+
+  const handleChange = useCallback(() => {
+    dispatch(toggleItem(id));
+  }, [dispatch, id]);
 
   return (
     <div className={styles.taskItem}>
-      {/* <input
-          type="checkbox"
-          onChange={useCallback(() => {
-            onChecked(id);
-          }, [id, onChecked])}
-          className={styles.taskCheckButton}
-        /> */}
       <input
         type="checkbox"
-        onChange={useCallback(() => {
-          dispatch(hiddenItem(id));
-        }, [dispatch, id])}
+        // onChange={useCallback(() => {
+        //   dispatch(toggleItem(id));
+        // }, [dispatch, id])}
+        onChange={handleChange}
         className={styles.taskCheckButton}
         checked={done}
       />
       <div>
         <div>
-          {/* <input
-              type="text"
-              onChange={useCallback(
-                (event: React.ChangeEvent<HTMLInputElement>) => onValueEdit(id, event.target.value),
-                [id, onValueEdit]
-              )}
-              value={value}
-              disabled={done}
-              className={`${styles.titleInput} ${done ? styles.stringIsGray : ""}`}
-              ref={onInputRef}
-            /> */}
           <input
             type="text"
             onChange={useCallback(
@@ -59,19 +46,10 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef }: Props
             disabled={done}
             className={`${styles.titleInput} ${done ? styles.stringIsGray : ""}`}
             ref={onInputRef}
+            placeholder="タスクタイトルを入力..."
           />
         </div>
         <div>
-          {/* <input
-              type="text"
-              onChange={useCallback(
-                (event: { target: { value: string } }) => onDescriptionEdit(id, event.target.value),
-                [id, onDescriptionEdit]
-              )}
-              value={description}
-              disabled={done}
-              className={styles.descriptionInput}
-            /> */}
           <input
             type="text"
             onChange={useCallback(
@@ -87,6 +65,7 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef }: Props
             value={description}
             disabled={done}
             className={styles.descriptionInput}
+            // placeholder="タスク説明を入力..."
           />
         </div>
       </div>
