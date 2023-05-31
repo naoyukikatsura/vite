@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface Menu {
   isOpen: boolean;
-  isChecked: boolean
+  isChecked: boolean;
 }
 
 export const menuState: Menu = {
   isOpen: false,
-  isChecked: false
+  isChecked: false,
 };
 
 const initialState = menuState;
@@ -22,9 +22,8 @@ const menuSlice = createSlice({
     },
     // メニューのチェックボックスをチェックでisCheckedの真偽値を反転
     toggleCheck: (state) => {
-
-      state.isChecked = !state.isChecked
-    }
+      state.isChecked = !state.isChecked;
+    },
   },
 });
 

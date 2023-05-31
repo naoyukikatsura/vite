@@ -15,7 +15,6 @@ import { type RootState } from "../store";
 // import useHandleClick from "./handle-create-task";
 import * as styles from "./styles.css";
 
-
 // export interface Task {
 //   value: string;
 //   description: string;
@@ -49,12 +48,10 @@ import * as styles from "./styles.css";
 // ];
 
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { taskItems } = useSelector((store: RootState) => store.task);
   const { isChecked } = useSelector((state: RootState) => state.menu);
-
-
 
   // const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -113,15 +110,12 @@ const App = () => {
   const handleToggleTask = useCallback(() => {
     // const trueTasks: Task[] = taskItems.filter((item) => item.done);
     // setTasks([...falseTasks, ...trueTasks]);
-    dispatch((toggleTask()))
+    dispatch(toggleTask());
 
     // isCheckedを消してみる
     // setIsChecked(!isChecked);
-    dispatch((toggleCheck()))
+    dispatch(toggleCheck());
   }, [dispatch]);
-
-
-
 
   const listItems = (isChecked ? taskItems : falseTasks).map((task) => {
     // const listItems = taskItems.map((task) => {

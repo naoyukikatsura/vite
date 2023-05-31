@@ -76,7 +76,7 @@ const taskSlice = createSlice({
     // 非表示タスクを表示する
     toggleTask: (state) => {
       const trueTaskItems = state.taskItems.filter((item) => item.done);
-      const falseTaskItems = state.taskItems.filter((item) => !item.done)
+      const falseTaskItems = state.taskItems.filter((item) => !item.done);
 
       // state.taskItems = state.taskItems.sort((a, b) => {
       //   if (a.done && !b.done) {
@@ -87,11 +87,11 @@ const taskSlice = createSlice({
       //   return 0
       // })
 
-      state.taskItems = [...falseTaskItems, ...trueTaskItems]
+      state.taskItems = [...falseTaskItems, ...trueTaskItems];
 
       // console.log('できた')
       // console.log(taskItems)
-    }
+    },
   },
 });
 
