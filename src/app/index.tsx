@@ -15,38 +15,6 @@ import { type RootState } from "../store";
 // import useHandleClick from "./handle-create-task";
 import * as styles from "./styles.css";
 
-// export interface Task {
-//   value: string;
-//   description: string;
-//   id: number;
-//   done: boolean;
-//   completed: boolean;
-// }
-
-// export const defaultTaskItem: Task[] = [
-//   {
-//     value: "タイトル3",
-//     description: "説明3",
-//     id: 3,
-//     done: false,
-//     completed: false,
-//   },
-//   {
-//     value: "タイトル2",
-//     description: "説明2",
-//     id: 2,
-//     done: false,
-//     completed: false,
-//   },
-//   {
-//     value: "タイトル1",
-//     description: "説明1",
-//     id: 1,
-//     done: false,
-//     completed: false,
-//   },
-// ];
-
 const App = () => {
   const dispatch = useDispatch();
 
@@ -126,7 +94,6 @@ const App = () => {
           description={task.description}
           id={task.id}
           done={task.done}
-          completed={task.completed}
           // onChecked={handleChecked}
           // onValueEdit={handleValueEdit}
           // onDescriptionEdit={handleDescriptionEdit}

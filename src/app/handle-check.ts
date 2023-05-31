@@ -12,7 +12,7 @@
 //     (id: number) => {
 //       if (tasks[0].value !== "") {
 //         setTasks((prevTasks) =>
-//           prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done, completed: !task.completed } : task))
+//           prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task))
 //         );
 //       }
 //     },

@@ -2,7 +2,7 @@ import { forwardRef, useCallback, type LegacyRef } from "react";
 import { useDispatch } from "react-redux";
 
 import * as styles from "../app/styles.css";
-import { removeItem, editValue, editDescription, type Task } from "../features/task/TaskSlice";
+import { hiddenItem, editValue, editDescription, type Task } from "../features/task/TaskSlice";
 
 interface Props extends Task {
   // onChecked: (id: number) => void;
@@ -10,7 +10,7 @@ interface Props extends Task {
   // onDescriptionEdit: (id: number, inputDescription: string) => void;
   onInputRef: LegacyRef<HTMLInputElement>;
 }
-const TaskItem = forwardRef(({ value, description, id, done, onInputRef, completed }: Props, ref) => {
+const TaskItem = forwardRef(({ value, description, id, done, onInputRef }: Props, ref) => {
   const dispatch = useDispatch();
 
   return (
@@ -21,15 +21,14 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef, complet
             onChecked(id);
           }, [id, onChecked])}
           className={styles.taskCheckButton}
-          checked={completed}
         /> */}
       <input
         type="checkbox"
         onChange={useCallback(() => {
-          dispatch(removeItem(id));
+          dispatch(hiddenItem(id));
         }, [dispatch, id])}
         className={styles.taskCheckButton}
-        checked={completed}
+        checked={done}
       />
       <div>
         <div>

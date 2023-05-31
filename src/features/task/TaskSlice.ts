@@ -5,7 +5,6 @@ export interface Task {
   description: string;
   id: number;
   done: boolean;
-  completed: boolean;
 }
 
 export const taskItems: Task[] = [
@@ -14,21 +13,18 @@ export const taskItems: Task[] = [
     description: "説明3",
     id: 3,
     done: false,
-    completed: false,
   },
   {
     value: "タイトル2",
     description: "説明2",
     id: 2,
     done: false,
-    completed: false,
   },
   {
     value: "タイトル1",
     description: "説明1",
     id: 1,
     done: false,
-    completed: false,
   },
 ] as Task[];
 
@@ -45,10 +41,10 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     // チェックしたら非表示になる
-    removeItem: (state, action: PayloadAction<number>) => {
+    hiddenItem: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
       state.taskItems = state.taskItems.map((item) =>
-        item.id === itemId ? { ...item, done: !item.done, completed: !item.completed } : item
+        item.id === itemId ? { ...item, done: !item.done } : item
       );
     },
     // 新しいタスクを作成する
@@ -59,7 +55,6 @@ const taskSlice = createSlice({
         description: "",
         id: newId,
         done: false,
-        completed: false,
       };
       state.taskItems.unshift(newTaskItem);
     },
@@ -95,5 +90,5 @@ const taskSlice = createSlice({
   },
 });
 
-export const { removeItem, createItem, editValue, editDescription, toggleTask } = taskSlice.actions;
+export const { hiddenItem, createItem, editValue, editDescription, toggleTask } = taskSlice.actions;
 export default taskSlice.reducer;

@@ -16,7 +16,6 @@
 //         description: "",
 //         id: newId,
 //         done: false,
-//         completed: false,
 //       };
 
 //       setTasks([newTask, ...tasks]);
