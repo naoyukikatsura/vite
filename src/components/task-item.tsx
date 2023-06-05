@@ -19,15 +19,7 @@ const TaskItem = forwardRef(({ value, description, id, done, onInputRef }: Props
 
   return (
     <div className={styles.taskItem}>
-      <input
-        type="checkbox"
-        // onChange={useCallback(() => {
-        //   dispatch(toggleItem(id));
-        // }, [dispatch, id])}
-        onChange={handleChange}
-        className={styles.taskCheckButton}
-        checked={done}
-      />
+      <input type="checkbox" onChange={handleChange} className={styles.taskCheckButton} checked={done} />
       <div>
         <div>
           <input
