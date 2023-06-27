@@ -1,16 +1,22 @@
-// import { sql } from "@vercel/postgres";
+import { db } from '@vercel/postgres';
 
-// export async function GET(request: Request) {
-//   const { searchParams } = new URL(request.url);
-//   const searchInput = searchParams.get("searchInput");
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-//   const { rows } = !searchInput
-//     ? await sql`select * from users;`
-//     : await sql`
-//         select * from users
-//         where
-//           name like ${`%${searchInput}%`} or
-//           mail like ${`%${searchInput}%`};
-//       `;
-//   return NextResponse.json({ rows });
-// }
+export default async function handler(
+  request: VercelRequest,
+  response: VercelResponse,
+) {
+  const client = await db.connect();
+
+  try {
+    await client.sql`CREATE TABLE TODO ( Value string, Description string, Id number, Done boolean );`;
+    const tasks = ['タスクタイトル1', 'タスク説明1', 1, true];
+    await client.sql`INSERT INTO TODO (Value, Description, Id, Done) VALUES (${tasks[0]}, ${tasks[1]}, ${tasks[2]}, ${tasks[3]});`;
+  } catch (error) {
+    return response.status(500).json({ error });
+  }
+
+  const todo = await client.sql`SELECT * FROM TODO;`;
+
+  return response.status(200).json({ todo });
+}
