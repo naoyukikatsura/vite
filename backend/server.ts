@@ -11,7 +11,7 @@ const app: Express = express();
 const port = process.env.PORT ?? 3001
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../frontend')))
+app.use(express.static(path.join(__dirname, '../index.html')))
 
 interface Todo { id: number; title: string; completed: boolean };
 
@@ -29,10 +29,6 @@ const todoList: Todo[] = sampleData
 app.get("/todo-list", (req: Request, res: Response) => {
   res.json(todoList)
 })
-
-// app.get("/", (req: Request, res: Response) => {
-//   res.send("Hello World!");
-// });
 
 app.listen(port, () => {
   console.log(`${port}でサーバー起動中`);
