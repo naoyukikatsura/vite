@@ -6,6 +6,9 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tsconfigPaths(), react(), vanillaExtractPlugin()],
+  server: {
+    open: true, // 自動でブラウザ起動する
+  },
   test: {
     globals: true,
     environment: "jsdom",
