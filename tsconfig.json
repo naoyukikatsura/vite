@@ -16,6 +16,6 @@
       "@components/*": ["src/components/*"]
     }
   },
-  "include": ["src", "types", "vitest-setup.ts"],
+  "include": ["src", "backend", "types", "vitest-setup.ts"],
   "exclude": ["node_modules", "dist"]
 }
