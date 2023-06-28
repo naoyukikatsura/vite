@@ -2,7 +2,7 @@
 import cors from "cors";
 import express from "express";
 
-import type { Express } from "express";
+import type { Express , Request, Response } from "express";
 
 const app: Express = express();
 const port = process.env.PORT ?? 3001
@@ -26,6 +26,10 @@ app.use(cors());
 // app.get("/todo-list", (req: Request, res: Response) => {
 //   res.json(todoList)
 // })
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('成功している')
+})
 
 app.listen(port, () => {
   console.log(`${port}でサーバー起動中`);
