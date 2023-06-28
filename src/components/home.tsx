@@ -21,7 +21,7 @@ const Home: FC = () => {
     <>
       <p>ToDo</p>
 
-      <ul>
+      {/* <ul>
         {
         todoList.map((todo) => (
           <li key={todo.id}>
@@ -33,7 +33,7 @@ const Home: FC = () => {
             <label htmlFor={String(todo.id)}>{todo.title}</label>
           </li>
         ))}
-      </ul>
+      </ul> */}
 
     </>
   )
